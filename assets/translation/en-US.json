@@ -1,0 +1,16 @@
+{
+  "hello": "Hello",
+  "onboarding_welcome": "Welcome",
+  "onboarding_body": "Make ordering food easy and fun in the most way",
+  "or": "or",
+  "continue": "Continue",
+  "already_have_an_account": "Already have an account",
+  "no_account": "Don't have an account",
+  "signup": "Sign Up",
+  "signin": "Sign In",
+  "forgot_password": "Forgot Password",
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm Password",
+  "google_sign_in": "Continue with Google"
+}

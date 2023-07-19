@@ -5,7 +5,7 @@ import 'package:foodito/core/prefs.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
-  final AppPreference appPreference;
+  final AppPreferences appPreference;
   DioFactory({required this.appPreference});
 
   Future<Dio> getDio() async {
@@ -37,12 +37,12 @@ class DioFactory {
     return dio;
   }
 
-  void copyWithToken(String token) {
+  Dio copyWithToken(String? token) {
     Dio dio = Dio();
     Map<String, String> headers = {
       AppConstants.contentType: AppConstants.applicationJson,
       AppConstants.accept: AppConstants.applicationJson,
-      AppConstants.authorization: token,
+      AppConstants.authorization: token ?? "",
     };
 
     dio.options = BaseOptions(
@@ -52,5 +52,15 @@ class DioFactory {
       connectTimeout: AppConstants.connectTimeout,
       sendTimeout: AppConstants.sendTimeout,
     );
+
+    if (!kReleaseMode) {
+      dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+      ));
+    }
+    return dio;
   }
 }
