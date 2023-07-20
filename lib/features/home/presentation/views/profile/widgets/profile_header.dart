@@ -20,7 +20,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.bottomLeft,
-      height: context.height * 0.2,
+      height: context.height * AppSizes.s02,
       decoration: BoxDecoration(
         color: context.colorScheme.shadow,
         boxShadow: [
@@ -66,8 +66,8 @@ class ProfileHeader extends StatelessWidget {
                   child: InkWell(
                     onTap: onEdit,
                     child: Container(
-                      height: context.height * 0.03,
-                      width: context.height * 0.03,
+                      height: context.height * AppSizes.s03,
+                      width: context.height * AppSizes.s03,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: context.colorScheme.primary,
