@@ -15,6 +15,12 @@ class AppStrings {
   static const String confirmPassword = "confirm_password";
   static const String continueWithGoogle = "google_sign_in";
 
+  // * Bottom Navigation Bar
+  static const String home = "home";
+  static const String settings = "settings";
+  static const String inbox = "inbox";
+  static const String profile = "profile";
+
   // * Messages
   static const String loginSuccessfully = "login_successfully";
   static const String emailNotValid = "email_not_valid";

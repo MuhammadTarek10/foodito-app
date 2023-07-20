@@ -12,5 +12,8 @@
   "email": "Email",
   "password": "Password",
   "confirm_password": "Confirm Password",
-  "google_sign_in": "Continue with Google"
+  "google_sign_in": "Continue with Google",
+  "profile": "Profile",
+  "home": "Home",
+  "inbox": "Inbox"
 }

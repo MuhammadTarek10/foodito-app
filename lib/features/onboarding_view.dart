@@ -17,10 +17,10 @@ class OnBoardingView extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-            top: context.hight * AppSizes.s05,
+            top: context.height * AppSizes.s05,
             child: Center(
               child: Container(
-                height: context.hight * AppSizes.s05,
+                height: context.height * AppSizes.s05,
                 width: context.width,
                 color: AppColors.shadeColor,
                 child: Column(
@@ -74,8 +74,12 @@ class OnBoardingView extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: context.hight * AppSizes.s02,
-            child: SvgPicture.asset(AppAssets.onBoarding),
+            top: context.height * AppSizes.s02,
+            child: SvgPicture.asset(
+              AppAssets.onBoarding,
+              height: context.height * 0.25,
+              width: context.width,
+            ),
           ),
         ],
       ),

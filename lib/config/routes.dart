@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodito/features/auth/presentation/views/login_view.dart';
 import 'package:foodito/features/auth/presentation/views/register_view.dart';
 import 'package:foodito/features/auth/presentation/views/reset_password_view.dart';
-import 'package:foodito/features/home/presentation/views/home_view.dart';
+import 'package:foodito/features/home/presentation/views/main_view.dart';
 import 'package:foodito/features/onboarding_view.dart';
 import 'package:foodito/features/splash_view.dart';
 
@@ -36,11 +36,11 @@ class RouteGenerator {
       case Routes.register:
         return MaterialPageRoute(builder: (context) => const RegisterView());
       case Routes.home:
-        return MaterialPageRoute(builder: (context) => const HomeView());
+        return MaterialPageRoute(builder: (context) => const MainView());
       case Routes.onboarding:
         return MaterialPageRoute(builder: (context) => const OnBoardingView());
       default:
-        return MaterialPageRoute(builder: (context) => const HomeView());
+        return MaterialPageRoute(builder: (context) => const MainView());
     }
   }
 }

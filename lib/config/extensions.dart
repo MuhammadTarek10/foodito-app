@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-extension MediaQueryExtension on BuildContext {
-  double get hight => MediaQuery.sizeOf(this).height;
+extension BuildContextExtension on BuildContext {
+  double get height => MediaQuery.sizeOf(this).height;
   double get width => MediaQuery.sizeOf(this).width;
-}
-
-extension TextThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
 }

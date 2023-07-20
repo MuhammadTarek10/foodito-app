@@ -7,6 +7,13 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.light,
 
+      // * Color Scheme
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.primaryColor,
+        secondary: AppColors.secondaryColor1,
+        background: Colors.white,
+      ),
+
       // * App Bar
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.grey,
@@ -24,6 +31,12 @@ class AppTheme {
           shadowColor: AppColors.shadeColor,
           elevation: 10,
         ),
+      ),
+
+      // * Bottom Navigation Bar
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        selectedItemColor: AppColors.primaryColor,
+        unselectedItemColor: AppColors.secondaryColor2,
       ),
 
       // * Text
