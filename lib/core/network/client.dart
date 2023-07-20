@@ -17,4 +17,7 @@ abstract class AppServiceClient {
 
   @POST(AppConstants.register)
   Future<RegisterResponse> register(@Body() RegisterRequest request);
+
+  @POST(AppConstants.logout)
+  Future<void> logout();
 }

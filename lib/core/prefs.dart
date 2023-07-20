@@ -10,7 +10,7 @@ class AppPreferences {
   final SharedPreferences prefs;
   const AppPreferences({required this.prefs});
 
-  //* Basic
+  // * Basic
   Future<bool?> isSeenOnBoarding() async {
     return prefs.getBool(AppConstants.isSeenOnBoarding);
   }
@@ -31,6 +31,11 @@ class AppPreferences {
     prefs.setBool(AppConstants.isLoggedIn, false);
   }
 
+  void clear() {
+    prefs.clear();
+  }
+
+  // * User
   void setUser(User user) {
     prefs.setString(AppConstants.user, jsonEncode(user.toJson()));
   }
@@ -51,7 +56,7 @@ class AppPreferences {
     prefs.setString(AppConstants.token, token);
   }
 
-  //* Locale
+  // * Locale
   static const prefKeyLang = 'prefKeyLang';
   Future<String> getAppLanguage() async {
     String? language = prefs.getString(prefKeyLang);

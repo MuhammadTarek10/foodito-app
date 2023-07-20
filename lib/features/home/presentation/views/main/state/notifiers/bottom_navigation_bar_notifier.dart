@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/features/home/presentation/views/home_view.dart';
 import 'package:foodito/features/home/presentation/views/inbox_view.dart';
-import 'package:foodito/features/home/presentation/views/profile_view.dart';
+import 'package:foodito/features/home/presentation/views/profile/profile_view.dart';
 
 enum BottomNavigationBarOption {
   profile,

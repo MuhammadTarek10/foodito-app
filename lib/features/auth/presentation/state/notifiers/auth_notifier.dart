@@ -22,4 +22,11 @@ class AuthStateNotifier extends StateNotifier<Either<Failure, User>?> {
   Future<void> register(String name, String email, String password) async {
     state = await repository.register(name, email, password);
   }
+
+  Future<bool> logout() async {
+    return (await repository.logout()).fold(
+      (l) => false,
+      (r) => true,
+    );
+  }
 }

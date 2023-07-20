@@ -61,4 +61,19 @@ class AuthRepositoryImplementer implements AuthRepository {
       return Left(Failure(500, AppStrings.noInternet));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> logout() async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.logout();
+        prefs.clear();
+        return const Right(true);
+      } catch (e) {
+        return Left(Failure(500, AppStrings.internal));
+      }
+    } else {
+      return Left(Failure(500, AppStrings.noInternet));
+    }
+  }
 }

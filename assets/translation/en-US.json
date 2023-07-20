@@ -8,6 +8,7 @@
   "no_account": "Don't have an account",
   "signup": "Sign Up",
   "signin": "Sign In",
+  "signout": "Sign Out",
   "forgot_password": "Forgot Password",
   "email": "Email",
   "password": "Password",
@@ -15,5 +16,8 @@
   "google_sign_in": "Continue with Google",
   "profile": "Profile",
   "home": "Home",
-  "inbox": "Inbox"
+  "inbox": "Inbox",
+  "history": "History",
+  "rooms": "Rooms",
+  "internal_server_error": "Error with Server"
 }

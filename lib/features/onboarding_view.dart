@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:foodito/config/extensions.dart';
 import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/assets.dart';
@@ -75,7 +74,7 @@ class OnBoardingView extends StatelessWidget {
           ),
           Positioned(
             top: context.height * AppSizes.s02,
-            child: SvgPicture.asset(
+            child: Image.asset(
               AppAssets.onBoarding,
               height: context.height * 0.25,
               width: context.width,

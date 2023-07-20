@@ -3,6 +3,7 @@ class AppConstants {
   // * End Points
   static const String login = "$baseUrl/users/login";
   static const String register = "$baseUrl/users/register";
+  static const String logout = "$baseUrl/users/logout";
 
   // * Headers
   static const String contentType = "Content-Type";

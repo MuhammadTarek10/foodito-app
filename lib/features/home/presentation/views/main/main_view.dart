@@ -2,8 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/config/extensions.dart';
-import 'package:foodito/features/home/presentation/state/notifiers/bottom_navigation_bar_notifier.dart';
-import 'package:foodito/features/home/presentation/state/providers/bottom_navigation_bar_provider.dart';
+import 'package:foodito/features/home/presentation/views/main/state/notifiers/bottom_navigation_bar_notifier.dart';
+import 'package:foodito/features/home/presentation/views/main/state/providers/bottom_navigation_bar_provider.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
@@ -15,9 +15,6 @@ class MainView extends ConsumerWidget {
     final controller =
         ref.read(bottomNavigationProvider.notifier).pageController;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-      ),
       body: MainBody(views: views, controller: controller),
       bottomNavigationBar: CustomNavigationBar(option: option, ref: ref),
     );
@@ -31,7 +28,7 @@ class MainBody extends StatelessWidget {
     required this.controller,
   });
 
-  final List<StatelessWidget> views;
+  final List<Widget> views;
   final PageController controller;
 
   @override
@@ -60,6 +57,7 @@ class CustomNavigationBar extends StatelessWidget {
       backgroundColor: context.colorScheme.primary,
       color: context.colorScheme.background,
       index: option.index,
+      animationCurve: Curves.easeInOut,
       items: const [
         Icon(Icons.person),
         Icon(Icons.home),

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/core/di.dart';
@@ -54,7 +53,7 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SvgPicture.asset(
+        child: Image.asset(
           AppAssets.onBoarding,
         ),
       ),

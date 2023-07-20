@@ -12,11 +12,12 @@ class AppTheme {
         primary: AppColors.primaryColor,
         secondary: AppColors.secondaryColor1,
         background: Colors.white,
+        shadow: AppColors.shadeColor,
       ),
 
       // * App Bar
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.primaryColor,
         elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -43,6 +44,11 @@ class AppTheme {
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
           fontSize: 34,
+          fontWeight: FontWeight.w700,
+          color: Colors.black,
+        ),
+        headlineMedium: TextStyle(
+          fontSize: 26,
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),

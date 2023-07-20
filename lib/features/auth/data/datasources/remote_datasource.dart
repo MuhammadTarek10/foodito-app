@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:foodito/core/network/client.dart';
 import 'package:foodito/core/network/requests/login_request.dart';
 import 'package:foodito/core/network/requests/register_request.dart';
@@ -7,6 +9,7 @@ import 'package:foodito/core/network/responses/register_response.dart';
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> login(String email, String password);
   Future<RegisterResponse> register(String name, String email, String password);
+  Future<bool> logout();
 }
 
 class AuthRemoteDataSourceImplementer implements AuthRemoteDataSource {
@@ -23,5 +26,16 @@ class AuthRemoteDataSourceImplementer implements AuthRemoteDataSource {
   Future<RegisterResponse> register(
       String name, String email, String password) async {
     return await client.register(RegisterRequest(name, email, password));
+  }
+
+  @override
+  Future<bool> logout() async {
+    try {
+      await client.logout();
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }

@@ -6,6 +6,7 @@ class AppStrings {
   static const String continueSign = "continue";
   static const String signUp = "signup";
   static const String signIn = "signin";
+  static const String signout = "signout";
   static const String forgotPassword = "forgot_password";
   static const String noAccount = "no_account";
   static const String alreadyHaveAnAccount = "already_have_an_account";
@@ -14,6 +15,9 @@ class AppStrings {
   static const String password = "password";
   static const String confirmPassword = "confirm_password";
   static const String continueWithGoogle = "google_sign_in";
+  static const String hello = "hello";
+  static const String history = "history";
+  static const String rooms = "rooms";
 
   // * Bottom Navigation Bar
   static const String home = "home";
