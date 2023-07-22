@@ -42,8 +42,8 @@ class ProfileHeader extends StatelessWidget {
             child: Stack(
               children: [
                 Container(
-                  height: context.height * 0.1,
-                  width: context.height * 0.1,
+                  height: context.height * AppSizes.s01,
+                  width: context.height * AppSizes.s01,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: context.colorScheme.background,
@@ -66,8 +66,8 @@ class ProfileHeader extends StatelessWidget {
                   child: InkWell(
                     onTap: onEdit,
                     child: Container(
-                      height: context.height * AppSizes.s03,
-                      width: context.height * AppSizes.s03,
+                      height: context.height * AppSizes.s003,
+                      width: context.height * AppSizes.s003,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: context.colorScheme.primary,
