@@ -80,8 +80,8 @@ class _LoginViewState extends State<LoginView> {
                   const CustomDivider(),
                   const GoogleButton(),
                   InkWell(
-                    onTap: () => Navigator.pushReplacementNamed(
-                        context, Routes.register),
+                    onTap: () =>
+                        context.navigator.pushReplacementNamed(Routes.register),
                     child: Text(
                       AppStrings.noAccount.tr(),
                       style: context.textTheme.bodySmall,
@@ -116,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           InkWell(
-            onTap: () => Navigator.pushNamed(context, Routes.resetPassword),
+            onTap: () => context.navigator.pushNamed(Routes.resetPassword),
             child: Text(
               AppStrings.forgotPassword.tr(),
               style: context.textTheme.bodySmall,
@@ -197,8 +197,7 @@ class _LoginViewState extends State<LoginView> {
           message: failure.message.tr(),
           isError: true,
         ),
-        (user) => Navigator.pushNamedAndRemoveUntil(
-          context,
+        (user) => context.navigator.pushNamedAndRemoveUntil(
           Routes.home,
           (route) => false,
         ),

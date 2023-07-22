@@ -46,7 +46,7 @@ class OnBoardingView extends StatelessWidget {
                           padding: const EdgeInsets.all(AppSizes.s14),
                           child: ElevatedButton(
                             onPressed: () =>
-                                Navigator.pushNamed(context, Routes.register),
+                                context.navigator.pushNamed(Routes.register),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
                               backgroundColor: AppColors.primaryColor,
@@ -60,7 +60,7 @@ class OnBoardingView extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () =>
-                              Navigator.pushNamed(context, Routes.login),
+                              context.navigator.pushNamed(Routes.login),
                           child: Text(
                             AppStrings.alreadyHaveAnAccount.tr(),
                             style: context.textTheme.bodySmall,

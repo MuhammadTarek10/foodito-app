@@ -33,8 +33,7 @@ class ProfileView extends ConsumerWidget {
             final result = await ref.read(authProvider.notifier).logout();
             if (context.mounted) {
               if (result) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
+                context.navigator.pushNamedAndRemoveUntil(
                   Routes.login,
                   (route) => false,
                 );

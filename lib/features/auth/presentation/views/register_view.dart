@@ -117,7 +117,7 @@ class _RegisterViewState extends State<RegisterView> {
                   const GoogleButton(),
                   InkWell(
                     onTap: () =>
-                        Navigator.pushReplacementNamed(context, Routes.login),
+                        context.navigator.pushReplacementNamed(Routes.login),
                     child: Text(
                       AppStrings.alreadyHaveAnAccount.tr(),
                       style: context.textTheme.bodySmall,
@@ -216,8 +216,7 @@ class _RegisterViewState extends State<RegisterView> {
           message: failure.message.tr(),
           isError: true,
         ),
-        (user) => Navigator.pushNamedAndRemoveUntil(
-          context,
+        (user) => context.navigator.pushNamedAndRemoveUntil(
           Routes.home,
           (route) => false,
         ),

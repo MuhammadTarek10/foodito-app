@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodito/config/extensions.dart';
 import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/core/di.dart';
@@ -25,13 +26,13 @@ class _SplashViewState extends State<SplashView> {
   _goNext() async {
     _prefs.isLoggedIn().then((isUserLoggedIn) {
       if (isUserLoggedIn != null && isUserLoggedIn) {
-        Navigator.of(context).pushReplacementNamed(Routes.home);
+        context.navigator.pushReplacementNamed(Routes.home);
       } else {
         _prefs.isSeenOnBoarding().then((isOnBoardingViewed) {
           if (isOnBoardingViewed != null && isOnBoardingViewed) {
-            Navigator.of(context).pushReplacementNamed(Routes.login);
+            context.navigator.pushReplacementNamed(Routes.login);
           } else {
-            Navigator.of(context).pushReplacementNamed(Routes.onboarding);
+            context.navigator.pushReplacementNamed(Routes.onboarding);
           }
         });
       }
