@@ -55,7 +55,7 @@ class ProfileOption extends StatelessWidget {
       padding: const EdgeInsets.all(AppSizes.s10),
       child: ListTile(
         leading: Icon(icon, size: context.width * 0.1),
-        title: Text(title, style: context.textTheme.bodyMedium),
+        title: Text(title, style: context.textTheme.bodyLarge),
         onTap: onTap,
       ),
     );

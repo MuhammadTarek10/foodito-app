@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodito/features/auth/presentation/views/login_view.dart';
+import 'package:foodito/features/auth/presentation/views/onboarding_view.dart';
 import 'package:foodito/features/auth/presentation/views/register_view.dart';
 import 'package:foodito/features/auth/presentation/views/reset_password_view.dart';
 import 'package:foodito/features/home/presentation/views/main/main_view.dart';
-import 'package:foodito/features/onboarding_view.dart';
 import 'package:foodito/features/splash_view.dart';
 
 class Routes {

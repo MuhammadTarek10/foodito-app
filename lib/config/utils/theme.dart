@@ -5,15 +5,21 @@ import 'package:foodito/config/utils/fonts.dart';
 class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
+      // * Brightness
       brightness: Brightness.light,
 
       // * Color Scheme
       colorScheme: const ColorScheme.light(
         primary: AppColors.primaryColor,
-        secondary: AppColors.secondaryColor1,
+        onPrimary: AppColors.secondaryColor1,
+        primaryContainer: AppColors.secondaryColor2,
+        onPrimaryContainer: AppColors.secondaryColor3,
         background: Colors.white,
         shadow: AppColors.shadeColor,
       ),
+
+      // * Scaffold
+      scaffoldBackgroundColor: Colors.white.withOpacity(0.95),
 
       // * App Bar
       appBarTheme: const AppBarTheme(
@@ -52,6 +58,10 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
+        bodyLarge: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
+        ),
         bodyMedium: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w400,
@@ -69,6 +79,32 @@ class AppTheme {
   }
 
   static ThemeData darkTheme() {
-    return ThemeData();
+    return ThemeData(
+      // * Brightness
+      brightness: Brightness.dark,
+
+      // * Color Scheme
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.primaryColor,
+        onPrimary: AppColors.secondaryColor1,
+        primaryContainer: AppColors.secondaryColor2,
+        onPrimaryContainer: AppColors.secondaryColor3,
+        background: Colors.black,
+        shadow: AppColors.shadeColor,
+      ),
+
+      // * Scaffold
+
+      // * App Bar
+
+      // * Elevated Button
+
+      // * Bottom Navigation Bar
+
+      // * Text
+
+      // * Font
+      fontFamily: AppFonts.sfProDisplay,
+    );
   }
 }
