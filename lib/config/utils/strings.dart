@@ -26,6 +26,14 @@ class AppStrings {
   static const String history = "history";
   static const String rooms = "rooms";
 
+  static const String chooseMethod = "choose_ordering_method";
+  static const String search = "search";
+  static const String addOrder = "add_order";
+  static const String person = "person";
+  static const String price = "price";
+  static const String payed = "payed";
+
+
   // * Bottom Navigation Bar
   static const String home = "home";
   static const String settings = "settings";

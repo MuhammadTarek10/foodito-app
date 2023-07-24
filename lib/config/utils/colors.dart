@@ -8,4 +8,5 @@ class AppColors {
   static const Color shadeColor = Color(0xFFFFE590);
   static const Color errorColor = Color(0xFFFF2121);
   static const Color correctColor = Color(0xFF53DE3D);
+  static const Color searchColor = Color(0xFF767680);
 }

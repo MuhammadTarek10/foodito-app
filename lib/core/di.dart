@@ -6,6 +6,8 @@ import 'package:foodito/core/network/network_info.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/auth/data/datasources/remote_datasource.dart';
 import 'package:foodito/features/auth/data/repositories/auth_repository_implementer.dart';
+import 'package:foodito/features/home/offline/data/datasource/local_datasource.dart';
+import 'package:foodito/features/home/offline/data/repositories/list_repository_implementer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -47,6 +49,15 @@ Future<void> initApp() async {
           prefs: instance<AppPreferences>(),
           networkInfo: instance<NetworkInfoImp>(),
           remoteDataSource: instance<AuthRemoteDataSourceImplementer>()));
+
+  // * List Data Source
+  instance.registerFactory<ListDataSourceImplementer>(
+      () => ListDataSourceImplementer());
+
+  // * List Repository
+  instance.registerFactory<ListRepositoryImplementer>(() =>
+      ListRepositoryImplementer(
+          dataSource: instance<ListDataSourceImplementer>()));
 }
 
 Future<void> setTokenDio() async {

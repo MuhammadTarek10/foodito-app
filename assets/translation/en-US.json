@@ -23,8 +23,14 @@
   "google_sign_in": "Continue with Google",
   "profile": "Profile",
   "home": "Home",
+  "choose_ordering_method": "Choose Ordering Method",
   "inbox": "Inbox",
   "history": "History",
   "rooms": "Rooms",
-  "internal_server_error": "Error with Server"
+  "internal_server_error": "Error with Server",
+  "search": "Search",
+  "add_order": "Press + to add orders",
+  "person": "Person",
+  "price": "Price",
+  "payed": "Payed"
 }

@@ -4,6 +4,7 @@ import 'package:foodito/features/auth/presentation/views/onboarding_view.dart';
 import 'package:foodito/features/auth/presentation/views/register_view.dart';
 import 'package:foodito/features/auth/presentation/views/reset_password_view.dart';
 import 'package:foodito/features/auth/presentation/views/verification_code_view.dart';
+import 'package:foodito/features/home/offline/presentation/views/orders_view.dart';
 import 'package:foodito/features/home/presentation/views/main/main_view.dart';
 import 'package:foodito/features/splash_view.dart';
 
@@ -21,6 +22,7 @@ class Routes {
   static const String home = "/home";
 
   // * Offline
+  static const String order = "/offline-order";
 
   // * Online
 }
@@ -46,6 +48,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const RegisterView());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const MainView());
+      case Routes.order:
+        return MaterialPageRoute(builder: (context) => const OrderView());
       case Routes.onboarding:
         return MaterialPageRoute(builder: (context) => const OnBoardingView());
       default:

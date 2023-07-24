@@ -16,10 +16,11 @@ class AppTheme {
         onPrimaryContainer: AppColors.secondaryColor3,
         background: Colors.white,
         shadow: AppColors.shadeColor,
+        secondary: AppColors.searchColor,
       ),
 
       // * Scaffold
-      scaffoldBackgroundColor: Colors.white.withOpacity(0.95),
+      // scaffoldBackgroundColor: Colors.white.withOpacity(0.95),
 
       // * App Bar
       appBarTheme: const AppBarTheme(
@@ -58,6 +59,10 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
+        headlineSmall: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+        ),
         bodyLarge: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w400,
@@ -70,6 +75,10 @@ class AppTheme {
           fontSize: 15,
           fontWeight: FontWeight.w400,
           decoration: TextDecoration.underline,
+        ),
+        displaySmall: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
         ),
       ),
 
