@@ -14,6 +14,13 @@ class AppStrings {
   static const String email = "email";
   static const String password = "password";
   static const String confirmPassword = "confirm_password";
+  static const String resetPassword = "reset_password";
+  static const String verificationCode = "verification_code";
+  static const String sentEmail = "sent_email";
+  static const String didntReceiveCode = "didnt_receive_code";
+  static const String resendCode = "resend_code";
+  static const String verify = "verify";
+  static const String verification = "verification";
   static const String continueWithGoogle = "google_sign_in";
   static const String hello = "hello";
   static const String history = "history";

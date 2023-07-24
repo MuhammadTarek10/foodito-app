@@ -3,6 +3,7 @@ import 'package:foodito/features/auth/presentation/views/login_view.dart';
 import 'package:foodito/features/auth/presentation/views/onboarding_view.dart';
 import 'package:foodito/features/auth/presentation/views/register_view.dart';
 import 'package:foodito/features/auth/presentation/views/reset_password_view.dart';
+import 'package:foodito/features/auth/presentation/views/verification_code_view.dart';
 import 'package:foodito/features/home/presentation/views/main/main_view.dart';
 import 'package:foodito/features/splash_view.dart';
 
@@ -14,6 +15,7 @@ class Routes {
   static const String login = "/login";
   static const String register = "/register";
   static const String resetPassword = "/reset-password";
+  static const String verificationCode = "/verification-code";
 
   // * Home
   static const String home = "/home";
@@ -33,6 +35,13 @@ class RouteGenerator {
       case Routes.resetPassword:
         return MaterialPageRoute(
             builder: (context) => const ResetPasswordView());
+      case Routes.verificationCode:
+        return MaterialPageRoute(
+          builder: (context) => VerificationCodeView(
+            email: settings.arguments as String,
+          ),
+        );
+
       case Routes.register:
         return MaterialPageRoute(builder: (context) => const RegisterView());
       case Routes.home:
