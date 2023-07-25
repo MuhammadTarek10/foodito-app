@@ -28,9 +28,13 @@
   "history": "History",
   "rooms": "Rooms",
   "internal_server_error": "Error with Server",
+  "order": "Order",
   "search": "Search",
   "add_order": "Press + to add orders",
   "person": "Person",
   "price": "Price",
-  "payed": "Payed"
+  "payed": "Payed",
+  "cancel": "Cancel",
+  "add": "Add",
+  "save": "Save"
 }

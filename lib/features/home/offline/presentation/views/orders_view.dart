@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodito/config/extensions.dart';
 import 'package:foodito/config/utils/assets.dart';
+import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
+import 'package:foodito/core/widgets/custom_snackbar.dart';
 import 'package:foodito/core/widgets/empty_orders.dart';
 import 'package:foodito/core/widgets/search_widget.dart';
 import 'package:foodito/features/home/offline/domain/entities/order.dart';
@@ -22,18 +25,30 @@ class OrderView extends ConsumerStatefulWidget {
 class _OrderViewState extends ConsumerState<OrderView> {
   late TextEditingController _searchController;
   List<Order>? filteredOrders;
+  late TextEditingController _orderController;
+  late TextEditingController _personController;
+  late TextEditingController _priceController;
+  late TextEditingController _payedController;
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
     _searchController.addListener(_search);
+    _orderController = TextEditingController();
+    _personController = TextEditingController();
+    _priceController = TextEditingController();
+    _payedController = TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
     _searchController.dispose();
+    _orderController.dispose();
+    _personController.dispose();
+    _priceController.dispose();
+    _payedController.dispose();
   }
 
   @override
@@ -91,7 +106,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
                       ],
                     ),
                     child: GestureDetector(
-                      onTap: _addOrder,
+                      onTap: () => _showDialog(null),
                       child: SvgPicture.asset(AppAssets.addOrder),
                     ),
                   ),
@@ -110,24 +125,147 @@ class _OrderViewState extends ConsumerState<OrderView> {
     });
   }
 
-  Future<void> _addOrder() async {
-    await ref.read(orderProvider.notifier).addOrder(
-          Order(
-            id: const Uuid().v4(),
-            person: "LOL",
-            name: "Shrimp",
-            price: 200,
-            payed: 150,
-            remaining: 50,
-          ),
+  Future<void> _addOrder(String? id) async {
+    if (context.mounted) {
+      if (_orderController.text.trim().isEmpty ||
+          _personController.text.trim().isEmpty ||
+          _priceController.text.trim().isEmpty ||
+          _payedController.text.trim().isEmpty) {
+        customSnackBar(
+          context: context,
+          message: AppStrings.unknownError.tr(),
+          isError: true,
         );
+        return;
+      }
+    }
+
+    try {
+      final person = _personController.text.trim();
+      final order = _orderController.text.trim();
+      final price = double.parse(_priceController.text.trim());
+      final payed = double.parse(_payedController.text.trim());
+      final remaining = payed - price;
+
+      if (id == null) {
+        await ref.read(orderProvider.notifier).addOrder(
+              Order(
+                id: const Uuid().v4(),
+                person: person,
+                name: order,
+                price: price,
+                payed: payed,
+                remaining: remaining,
+              ),
+            );
+      } else {
+        await ref.read(orderProvider.notifier).editOrder(
+              Order(
+                id: id,
+                person: person,
+                name: order,
+                price: price,
+                payed: payed,
+                remaining: remaining,
+              ),
+            );
+      }
+    } catch (e) {
+      customSnackBar(
+        context: context,
+        message: AppStrings.unknownError.tr(),
+        isError: true,
+      );
+      return;
+    }
+    _clear();
   }
 
   Future<void> _edit(Order order) async {
-    await ref.read(orderProvider.notifier).editOrder(order);
+    _personController.text = order.person;
+    _orderController.text = order.name;
+    _priceController.text = order.price.toString();
+    _payedController.text = order.payed.toString();
+    await _showDialog(order.id);
   }
 
   Future<void> _delete(Order order) async {
     await ref.read(orderProvider.notifier).deleteOrder(order);
+  }
+
+  Future<dynamic> _showDialog(String? id) async {
+    return await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text(AppStrings.order.tr()),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InputField(
+              label: AppStrings.order.tr(),
+              controller: _orderController,
+            ),
+            InputField(
+              label: AppStrings.person.tr(),
+              controller: _personController,
+            ),
+            InputField(
+              label: AppStrings.price.tr(),
+              controller: _priceController,
+            ),
+            InputField(
+              label: AppStrings.payed.tr(),
+              controller: _payedController,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: _clear,
+            child: Text(AppStrings.cancel.tr()),
+          ),
+          TextButton(
+            onPressed: () => _addOrder(id),
+            child:
+                Text(id == null ? AppStrings.add.tr() : AppStrings.save.tr()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _clear() {
+    _orderController.clear();
+    _personController.clear();
+    _priceController.clear();
+    _payedController.clear();
+    context.navigator.pop();
+  }
+}
+
+class InputField extends StatelessWidget {
+  const InputField({
+    super.key,
+    required this.label,
+    required this.controller,
+  });
+
+  final String label;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.s14),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          label: Text(label),
+          labelStyle: context.textTheme.displaySmall,
+          border: const OutlineInputBorder(),
+        ),
+      ),
+    );
   }
 }

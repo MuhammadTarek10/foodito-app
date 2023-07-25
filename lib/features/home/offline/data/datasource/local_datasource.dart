@@ -28,7 +28,7 @@ class ListDataSourceImplementer implements ListDataSource {
   Future<void> editOrder(Order order) async {
     await box.put(
       box.getKeyById(order.id),
-      order.copyWith(person: "Edited"),
+      order,
     );
   }
 

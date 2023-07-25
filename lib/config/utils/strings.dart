@@ -29,9 +29,13 @@ class AppStrings {
   static const String chooseMethod = "choose_ordering_method";
   static const String search = "search";
   static const String addOrder = "add_order";
+  static const String order = "order";
   static const String person = "person";
   static const String price = "price";
   static const String payed = "payed";
+  static const String cancel = "cancel";
+  static const String add = "add";
+  static const String save = "save";
 
 
   // * Bottom Navigation Bar
