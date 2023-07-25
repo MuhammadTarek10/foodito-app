@@ -12,9 +12,20 @@ class OrderNotifier extends StateNotifier<Either<Failure, List<Order>>?> {
     getOrders();
   }
 
-  void addOrder(Order order) {}
+  Future<void> addOrder(Order order) async {
+    await repo.addOrder(order);
+    state = await repo.getOrders();
+  }
 
-  void removeOrder(Order order) {}
+  Future<void> deleteOrder(Order order) async {
+    await repo.deleteOrder(order);
+    state = await repo.getOrders();
+  }
+
+  Future<void> editOrder(Order order) async {
+    await repo.editOrder(order);
+    state = await repo.getOrders();
+  }
 
   Future<void> getOrders() async {
     state = await repo.getOrders();

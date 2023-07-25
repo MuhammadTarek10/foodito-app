@@ -16,6 +16,9 @@ class AppConstants {
   static const Duration connectTimeout = Duration(seconds: 3);
   static const Duration sendTimeout = Duration(seconds: 3);
 
+  // * Local Data Source
+  static const String orders = "orders";
+
   // * Prefs Keys
   static const String isSeenOnBoarding = "isSeenOnBoarding";
   static const String isLoggedIn = "isLoggedIn";

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:foodito/config/utils/constants.dart';
 import 'package:foodito/core/media.dart';
 import 'package:foodito/core/network/client.dart';
 import 'package:foodito/core/network/dio_factory.dart';
@@ -9,6 +10,7 @@ import 'package:foodito/features/auth/data/repositories/auth_repository_implemen
 import 'package:foodito/features/home/offline/data/datasource/local_datasource.dart';
 import 'package:foodito/features/home/offline/data/repositories/list_repository_implementer.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,9 +52,10 @@ Future<void> initApp() async {
           networkInfo: instance<NetworkInfoImp>(),
           remoteDataSource: instance<AuthRemoteDataSourceImplementer>()));
 
+  Box box = Hive.box(AppConstants.orders);
   // * List Data Source
   instance.registerFactory<ListDataSourceImplementer>(
-      () => ListDataSourceImplementer());
+      () => ListDataSourceImplementer(box: box));
 
   // * List Repository
   instance.registerFactory<ListRepositoryImplementer>(() =>

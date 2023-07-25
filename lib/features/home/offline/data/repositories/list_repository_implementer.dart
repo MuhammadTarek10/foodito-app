@@ -12,21 +12,33 @@ class ListRepositoryImplementer implements ListRepository {
   const ListRepositoryImplementer({required this.dataSource});
 
   @override
-  Future<Either<Failure, void>> addOrder(Order order) {
-    // TODO: implement addOrder
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> addOrder(Order order) async {
+    try {
+      await dataSource.addOrder(order);
+      return const Right(true);
+    } catch (e) {
+      return Left(Failure(500, AppStrings.internal.tr()));
+    }
   }
 
   @override
-  Future<Either<Failure, void>> deleteOrder(Order order) {
-    // TODO: implement deleteOrder
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> deleteOrder(Order order) async {
+    try {
+      await dataSource.deleteOrder(order);
+      return const Right(true);
+    } catch (e) {
+      return Left(Failure(500, AppStrings.internal.tr()));
+    }
   }
 
   @override
-  Future<Either<Failure, void>> editOrder(Order order) {
-    // TODO: implement editOrder
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> editOrder(Order order) async {
+    try {
+      await dataSource.editOrder(order);
+      return const Right(true);
+    } catch (e) {
+      return Left(Failure(500, AppStrings.internal.tr()));
+    }
   }
 
   @override

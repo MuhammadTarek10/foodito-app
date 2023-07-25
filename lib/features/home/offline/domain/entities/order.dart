@@ -1,12 +1,25 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:hive_flutter/hive_flutter.dart';
 
-@immutable
+part 'order.g.dart';
+
+@HiveType(typeId: 1)
 class Order {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String person;
+
+  @HiveField(2)
   final String name;
+
+  @HiveField(3)
   final double price;
+
+  @HiveField(4)
   final double payed;
+
+  @HiveField(5)
   final double remaining;
 
   const Order({
@@ -34,5 +47,16 @@ class Order {
       payed: payed ?? this.payed,
       remaining: remaining ?? this.remaining,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'person': person,
+      'name': name,
+      'price': price,
+      'payed': payed,
+      'remaining': remaining,
+    };
   }
 }

@@ -7,8 +7,10 @@ import 'package:foodito/config/utils/values.dart';
 import 'package:foodito/core/widgets/empty_orders.dart';
 import 'package:foodito/core/widgets/search_widget.dart';
 import 'package:foodito/features/home/offline/domain/entities/order.dart';
+import 'package:foodito/features/home/offline/presentation/state/providers/order_provider.dart';
 import 'package:foodito/features/home/offline/presentation/state/providers/search_provider.dart';
 import 'package:foodito/features/home/offline/presentation/widgets/order_widget.dart';
+import 'package:uuid/uuid.dart';
 
 class OrderView extends ConsumerStatefulWidget {
   const OrderView({super.key});
@@ -25,7 +27,6 @@ class _OrderViewState extends ConsumerState<OrderView> {
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-
     _searchController.addListener(_search);
   }
 
@@ -38,6 +39,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
   @override
   Widget build(BuildContext context) {
     final orders = ref.watch(searchProvider(_searchController.text));
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colorScheme.onPrimary,
@@ -62,7 +64,11 @@ class _OrderViewState extends ConsumerState<OrderView> {
                                     itemCount: orders.length,
                                     itemBuilder: (context, index) {
                                       final order = orders[index];
-                                      return OrderWidget(order: order);
+                                      return OrderWidget(
+                                        order: order,
+                                        onEdit: (order) => _edit(order),
+                                        onDelete: (order) => _delete(order),
+                                      );
                                     },
                                   ),
                                 ),
@@ -84,7 +90,10 @@ class _OrderViewState extends ConsumerState<OrderView> {
                         ),
                       ],
                     ),
-                    child: SvgPicture.asset(AppAssets.addOrder),
+                    child: GestureDetector(
+                      onTap: _addOrder,
+                      child: SvgPicture.asset(AppAssets.addOrder),
+                    ),
                   ),
                 )
               ],
@@ -99,5 +108,26 @@ class _OrderViewState extends ConsumerState<OrderView> {
     setState(() {
       filteredOrders = ref.read(searchProvider(_searchController.text));
     });
+  }
+
+  Future<void> _addOrder() async {
+    await ref.read(orderProvider.notifier).addOrder(
+          Order(
+            id: const Uuid().v4(),
+            person: "LOL",
+            name: "Shrimp",
+            price: 200,
+            payed: 150,
+            remaining: 50,
+          ),
+        );
+  }
+
+  Future<void> _edit(Order order) async {
+    await ref.read(orderProvider.notifier).editOrder(order);
+  }
+
+  Future<void> _delete(Order order) async {
+    await ref.read(orderProvider.notifier).deleteOrder(order);
   }
 }
