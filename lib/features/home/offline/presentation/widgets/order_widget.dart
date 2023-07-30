@@ -48,44 +48,85 @@ class OrderWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.all(AppSizes.s14),
-                child: Row(
-                  children: [
-                    Text(
-                      order.name,
-                      style: context.textTheme.bodyMedium,
-                    ),
-                    const SizedBox(width: AppSizes.s30),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.s10,
+                ),
+                child: CircleAvatar(
+                  radius: AppSizes.s30,
+                  backgroundColor: context.colorScheme.onPrimary,
+                  child: Image.asset(AppAssets.noImage),
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(AppSizes.s14),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildDetails(
-                          context,
-                          AppStrings.person.tr(),
-                          order.person,
+                        Row(
+                          children: [
+                            Text(
+                              "${order.name} | ",
+                              style: context.textTheme.bodyMedium,
+                            ),
+                            Text(
+                              order.person,
+                              style: context.textTheme.bodyMedium!.copyWith(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: AppSizes.s30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildDetails(
+                              context,
+                              AppStrings.price.tr(),
+                              order.price.toString(),
+                            ),
+                            _buildDetails(
+                              context,
+                              AppStrings.payed.tr(),
+                              order.payed.toString(),
+                            ),
+                          ],
                         ),
                         _buildDetails(
                           context,
-                          AppStrings.price.tr(),
-                          order.price.toString(),
-                        ),
-                        _buildDetails(
-                          context,
-                          AppStrings.payed.tr(),
-                          order.payed.toString(),
+                          AppStrings.remaining.tr(),
+                          order.remaining.toString(),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(AppSizes.s14),
-                child: InkWell(
-                  onTap: () => onEdit(order),
-                  child: SvgPicture.asset(AppAssets.edit),
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: AppSizes.s10,
+                    ),
+                    child: InkWell(
+                      onTap: () => onEdit(order),
+                      child: SvgPicture.asset(AppAssets.edit),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.s10,
+                    ),
+                    child: InkWell(
+                      onTap: () => onDelete(order),
+                      child: SvgPicture.asset(AppAssets.delete),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -101,7 +142,7 @@ class OrderWidget extends StatelessWidget {
         style: context.textTheme.displaySmall,
         children: [
           TextSpan(
-            text: data,
+            text: "$data ",
             style: context.textTheme.displaySmall!.copyWith(
               fontWeight: FontWeight.bold,
             ),

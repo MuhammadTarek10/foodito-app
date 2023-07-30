@@ -33,10 +33,11 @@ class AppStrings {
   static const String person = "person";
   static const String price = "price";
   static const String payed = "payed";
+  static const String remaining = "remaining";
   static const String cancel = "cancel";
   static const String add = "add";
   static const String save = "save";
-
+  static const String check = "check";
 
   // * Bottom Navigation Bar
   static const String home = "home";

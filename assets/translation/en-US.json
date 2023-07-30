@@ -34,7 +34,9 @@
   "person": "Person",
   "price": "Price",
   "payed": "Payed",
+  "remaining": "Remaining",
   "cancel": "Cancel",
   "add": "Add",
-  "save": "Save"
+  "save": "Save",
+  "check": "Check"
 }

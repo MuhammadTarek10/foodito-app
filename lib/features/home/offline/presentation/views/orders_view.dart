@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +8,6 @@ import 'package:foodito/config/extensions.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
-import 'package:foodito/core/widgets/custom_snackbar.dart';
 import 'package:foodito/core/widgets/empty_orders.dart';
 import 'package:foodito/core/widgets/search_widget.dart';
 import 'package:foodito/features/home/offline/domain/entities/order.dart';
@@ -26,7 +27,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
   late TextEditingController _searchController;
   List<Order>? filteredOrders;
   late TextEditingController _orderController;
-  late TextEditingController _personController;
+  late TextEditingController _nameController;
   late TextEditingController _priceController;
   late TextEditingController _payedController;
 
@@ -36,7 +37,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
     _searchController = TextEditingController();
     _searchController.addListener(_search);
     _orderController = TextEditingController();
-    _personController = TextEditingController();
+    _nameController = TextEditingController();
     _priceController = TextEditingController();
     _payedController = TextEditingController();
   }
@@ -46,7 +47,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
     super.dispose();
     _searchController.dispose();
     _orderController.dispose();
-    _personController.dispose();
+    _nameController.dispose();
     _priceController.dispose();
     _payedController.dispose();
   }
@@ -92,7 +93,6 @@ class _OrderViewState extends ConsumerState<OrderView> {
                 ),
                 Positioned(
                   bottom: context.height * AppSizes.s01,
-                  left: 0,
                   right: 0,
                   child: Container(
                     decoration: BoxDecoration(
@@ -100,18 +100,31 @@ class _OrderViewState extends ConsumerState<OrderView> {
                       boxShadow: [
                         BoxShadow(
                           color: context.colorScheme.onPrimary,
-                          blurRadius: 5,
+                          blurRadius: 10,
                           offset: const Offset(0, 0),
                         ),
                       ],
                     ),
                     child: GestureDetector(
-                      onTap: () => _showDialog(null),
+                      onTap: _addOrder,
                       child: SvgPicture.asset(AppAssets.addOrder),
                     ),
                   ),
                 )
               ],
+            ),
+          ),
+          SafeArea(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(
+                right: AppSizes.s20,
+                left: AppSizes.s20,
+              ),
+              child: ElevatedButton(
+                onPressed: () => _check(orders),
+                child: Text(AppStrings.check.tr()),
+              ),
             ),
           ),
         ],
@@ -125,119 +138,43 @@ class _OrderViewState extends ConsumerState<OrderView> {
     });
   }
 
-  Future<void> _addOrder(String? id) async {
-    if (context.mounted) {
-      if (_orderController.text.trim().isEmpty ||
-          _personController.text.trim().isEmpty ||
-          _priceController.text.trim().isEmpty ||
-          _payedController.text.trim().isEmpty) {
-        customSnackBar(
-          context: context,
-          message: AppStrings.unknownError.tr(),
-          isError: true,
+  void _check(List<Order>? orders) {
+    if (orders != null) log(orders.map((e) => e.toJson()).toString());
+  }
+
+  Future<void> _addOrder() async {
+    await ref.read(orderProvider.notifier).addOrder(
+          Order(
+            id: const Uuid().v4(),
+            person: "LOL",
+            name: "Shrimp",
+            price: 200,
+            payed: 150,
+            remaining: 50,
+          ),
         );
-        return;
-      }
-    }
-
-    try {
-      final person = _personController.text.trim();
-      final order = _orderController.text.trim();
-      final price = double.parse(_priceController.text.trim());
-      final payed = double.parse(_payedController.text.trim());
-      final remaining = payed - price;
-
-      if (id == null) {
-        await ref.read(orderProvider.notifier).addOrder(
-              Order(
-                id: const Uuid().v4(),
-                person: person,
-                name: order,
-                price: price,
-                payed: payed,
-                remaining: remaining,
-              ),
-            );
-      } else {
-        await ref.read(orderProvider.notifier).editOrder(
-              Order(
-                id: id,
-                person: person,
-                name: order,
-                price: price,
-                payed: payed,
-                remaining: remaining,
-              ),
-            );
-      }
-    } catch (e) {
-      customSnackBar(
-        context: context,
-        message: AppStrings.unknownError.tr(),
-        isError: true,
-      );
-      return;
-    }
-    _clear();
   }
 
   Future<void> _edit(Order order) async {
-    _personController.text = order.person;
-    _orderController.text = order.name;
-    _priceController.text = order.price.toString();
-    _payedController.text = order.payed.toString();
-    await _showDialog(order.id);
+    await ref.read(orderProvider.notifier).editOrder(
+          Order(
+            id: order.id,
+            person: order.person,
+            name: "Edited",
+            price: order.price - 10,
+            payed: order.payed - 10,
+            remaining: order.remaining,
+          ),
+        );
   }
 
   Future<void> _delete(Order order) async {
     await ref.read(orderProvider.notifier).deleteOrder(order);
   }
 
-  Future<dynamic> _showDialog(String? id) async {
-    return await showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(AppStrings.order.tr()),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            InputField(
-              label: AppStrings.order.tr(),
-              controller: _orderController,
-            ),
-            InputField(
-              label: AppStrings.person.tr(),
-              controller: _personController,
-            ),
-            InputField(
-              label: AppStrings.price.tr(),
-              controller: _priceController,
-            ),
-            InputField(
-              label: AppStrings.payed.tr(),
-              controller: _payedController,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: _clear,
-            child: Text(AppStrings.cancel.tr()),
-          ),
-          TextButton(
-            onPressed: () => _addOrder(id),
-            child:
-                Text(id == null ? AppStrings.add.tr() : AppStrings.save.tr()),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _clear() {
     _orderController.clear();
-    _personController.clear();
+    _nameController.clear();
     _priceController.clear();
     _payedController.clear();
     context.navigator.pop();
