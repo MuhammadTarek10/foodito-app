@@ -47,62 +47,72 @@ class OrderWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSizes.s10,
-                ),
-                child: CircleAvatar(
-                  radius: AppSizes.s30,
-                  backgroundColor: context.colorScheme.onPrimary,
-                  child: Image.asset(AppAssets.noImage),
-                ),
-              ),
-              Column(
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(AppSizes.s14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "${order.name} | ",
-                              style: context.textTheme.bodyMedium,
-                            ),
-                            Text(
-                              order.person,
-                              style: context.textTheme.bodyMedium!.copyWith(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: AppSizes.s30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.s10,
+                    ),
+                    child: CircleAvatar(
+                      radius: AppSizes.s30,
+                      backgroundColor: context.colorScheme.onPrimary,
+                      child: Image.asset(AppAssets.noImage),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(AppSizes.s14),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildDetails(
-                              context,
-                              AppStrings.price.tr(),
-                              order.price.toString(),
+                            Row(
+                              children: [
+                                Text(
+                                  order.name.length > 8
+                                      ? "${order.name.substring(0, 8)} | "
+                                      : "${order.name} | ",
+                                  style: context.textTheme.bodyMedium,
+                                ),
+                                Text(
+                                  order.person.length > 8
+                                      ? order.person.substring(0, 8)
+                                      : order.person,
+                                  style: context.textTheme.bodyMedium!.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: AppSizes.s30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDetails(
+                                  context,
+                                  AppStrings.price.tr(),
+                                  order.price.toString(),
+                                ),
+                                _buildDetails(
+                                  context,
+                                  AppStrings.payed.tr(),
+                                  order.payed.toString(),
+                                ),
+                              ],
                             ),
                             _buildDetails(
                               context,
-                              AppStrings.payed.tr(),
-                              order.payed.toString(),
+                              AppStrings.remaining.tr(),
+                              order.remaining.toString(),
                             ),
                           ],
                         ),
-                        _buildDetails(
-                          context,
-                          AppStrings.remaining.tr(),
-                          order.remaining.toString(),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

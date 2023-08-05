@@ -34,6 +34,7 @@ class AppStrings {
   static const String price = "price";
   static const String payed = "payed";
   static const String remaining = "remaining";
+  static const String quantity = "quantity";
   static const String cancel = "cancel";
   static const String add = "add";
   static const String save = "save";
@@ -59,4 +60,5 @@ class AppStrings {
   // * Error Messages
   static const String internal = "internal_server_error";
   static const String noInternet = "no_internet_connection";
+  static const String fillAllFields = "fill_all_fields";
 }

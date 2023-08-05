@@ -68,7 +68,7 @@ class AppTheme {
           fontWeight: FontWeight.w400,
         ),
         bodyMedium: TextStyle(
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         bodySmall: TextStyle(
@@ -77,7 +77,7 @@ class AppTheme {
           decoration: TextDecoration.underline,
         ),
         displaySmall: TextStyle(
-          fontSize: 15,
+          fontSize: 13,
           fontWeight: FontWeight.w400,
         ),
       ),

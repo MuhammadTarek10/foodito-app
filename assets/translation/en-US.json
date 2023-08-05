@@ -29,6 +29,7 @@
   "rooms": "Rooms",
   "internal_server_error": "Error with Server",
   "order": "Order",
+  "name": "Name",
   "search": "Search",
   "add_order": "Press + to add orders",
   "person": "Person",

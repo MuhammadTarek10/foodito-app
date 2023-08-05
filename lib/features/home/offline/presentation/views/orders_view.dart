@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' show max;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
   late TextEditingController _nameController;
   late TextEditingController _priceController;
   late TextEditingController _payedController;
+  late TextEditingController _quantityController;
 
   @override
   void initState() {
@@ -40,6 +42,8 @@ class _OrderViewState extends ConsumerState<OrderView> {
     _nameController = TextEditingController();
     _priceController = TextEditingController();
     _payedController = TextEditingController();
+    _quantityController = TextEditingController();
+    _quantityController.text = "1";
   }
 
   @override
@@ -50,6 +54,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
     _nameController.dispose();
     _priceController.dispose();
     _payedController.dispose();
+    _quantityController.dispose();
   }
 
   @override
@@ -106,7 +111,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
                       ],
                     ),
                     child: GestureDetector(
-                      onTap: _addOrder,
+                      onTap: () => _addOrder(null),
                       child: SvgPicture.asset(AppAssets.addOrder),
                     ),
                   ),
@@ -142,30 +147,154 @@ class _OrderViewState extends ConsumerState<OrderView> {
     if (orders != null) log(orders.map((e) => e.toJson()).toString());
   }
 
-  Future<void> _addOrder() async {
-    await ref.read(orderProvider.notifier).addOrder(
-          Order(
-            id: const Uuid().v4(),
-            person: "LOL",
-            name: "Shrimp",
-            price: 200,
-            payed: 150,
-            remaining: 50,
+  Future<void> _addOrder(Order? order) async {
+    String id = const Uuid().v4();
+    if (order != null) {
+      id = order.id;
+      _orderController.text = order.name;
+      _nameController.text = order.person;
+      _priceController.text = order.price.toString();
+      _payedController.text = order.payed.toString();
+    }
+    await _takeInputs(id, order);
+    _clear();
+  }
+
+  Future<dynamic> _takeInputs(String id, Order? order) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(AppSizes.s14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InputField(
+                label: AppStrings.order.tr(),
+                controller: _orderController,
+              ),
+              InputField(
+                label: AppStrings.name.tr(),
+                controller: _nameController,
+              ),
+              InputField(
+                label: AppStrings.price.tr(),
+                controller: _priceController,
+              ),
+              InputField(
+                label: AppStrings.payed.tr(),
+                controller: _payedController,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        final quantity = int.parse(_quantityController.text);
+                        _quantityController.text = (quantity + 1).toString();
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  ),
+                  Container(
+                    width: AppSizes.s50,
+                    height: AppSizes.s50,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.s10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.background,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: TextField(
+                        controller: _quantityController,
+                        textAlign: TextAlign.center,
+                        style: context.textTheme.displaySmall,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () {
+                          final quantity = int.parse(_quantityController.text);
+                          _quantityController.text =
+                              max((quantity - 1), 1).toString();
+                        },
+                        icon: const Icon(Icons.remove),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(AppSizes.s14),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_nameController.text.isEmpty ||
+                        _orderController.text.isEmpty ||
+                        _priceController.text.isEmpty ||
+                        _payedController.text.isEmpty) {
+                      context.navigator.pop();
+                      return context.snackBar(
+                        message: AppStrings.fillAllFields.tr(),
+                        isError: true,
+                      );
+                    }
+
+                    final quantity = int.parse(_quantityController.text);
+                    for (int i = 0; i < quantity; i++) {
+                      final toAdd = Order(
+                        id: id,
+                        person: _nameController.text,
+                        name: _orderController.text,
+                        price: double.parse(_priceController.text),
+                        payed: i > 0 ? 0 : double.parse(_payedController.text),
+                        remaining: i > 0
+                            ? double.parse(_priceController.text)
+                            : double.parse(_priceController.text) -
+                                double.parse(_payedController.text),
+                      );
+                      order == null
+                          ? await ref
+                              .read(orderProvider.notifier)
+                              .addOrder(toAdd)
+                          : i > 0
+                              ? ref.read(orderProvider.notifier).addOrder(toAdd)
+                              : ref
+                                  .read(orderProvider.notifier)
+                                  .editOrder(toAdd);
+                    }
+                    if (context.mounted) context.navigator.pop();
+                    _clear();
+                  },
+                  child: Text(AppStrings.add.tr()),
+                ),
+              ),
+            ],
           ),
         );
+      },
+    );
   }
 
   Future<void> _edit(Order order) async {
-    await ref.read(orderProvider.notifier).editOrder(
-          Order(
-            id: order.id,
-            person: order.person,
-            name: "Edited",
-            price: order.price - 10,
-            payed: order.payed - 10,
-            remaining: order.remaining,
-          ),
-        );
+    await _addOrder(order);
   }
 
   Future<void> _delete(Order order) async {
@@ -177,7 +306,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
     _nameController.clear();
     _priceController.clear();
     _payedController.clear();
-    context.navigator.pop();
+    _quantityController.text = "1";
   }
 }
 
