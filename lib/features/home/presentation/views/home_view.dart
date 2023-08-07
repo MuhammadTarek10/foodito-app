@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
           ),
           const CustomDivider(),
           InkWell(
-            onTap: () {},
+            onTap: () => context.navigator.pushNamed(Routes.createRoom),
             child: SvgPicture.asset(AppAssets.createRoom),
           ),
         ],

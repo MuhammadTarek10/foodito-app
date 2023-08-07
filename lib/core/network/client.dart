@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:foodito/config/utils/constants.dart';
-import 'package:foodito/core/network/requests/login_request.dart';
-import 'package:foodito/core/network/requests/register_request.dart';
-import 'package:foodito/core/network/responses/login_response.dart';
-import 'package:foodito/core/network/responses/register_response.dart';
+import 'package:foodito/features/auth/data/apis/requests/login_request.dart';
+import 'package:foodito/features/auth/data/apis/requests/register_request.dart';
+import 'package:foodito/features/auth/data/apis/responses/login_response.dart';
+import 'package:foodito/features/auth/data/apis/responses/register_response.dart';
+import 'package:foodito/features/home/online/data/apis/requests/room_requests.dart';
+import 'package:foodito/features/home/online/data/apis/responses/room_responses.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -20,4 +22,16 @@ abstract class AppServiceClient {
 
   @POST(AppConstants.logout)
   Future<void> logout();
+
+  @GET(AppConstants.getRooms)
+  Future<GetRoomsResponse> getRooms();
+
+  @POST(AppConstants.addRoom)
+  Future<AddRoomResponse> addRoom(@Body() AddRoomRequest request);
+
+  @PUT(AppConstants.editRoom)
+  Future<EditRoomResponse> editRoom(@Body() EditRoomRequest request);
+
+  @DELETE(AppConstants.deleteRoom)
+  Future<DeleteRoomResponse> deleteRoom(@Body() DeleteRoomRequest request);
 }

@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' show max;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
   late TextEditingController _priceController;
   late TextEditingController _payedController;
   late TextEditingController _quantityController;
+  late OrderController _orderControllerProvider;
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class _OrderViewState extends ConsumerState<OrderView> {
     _payedController = TextEditingController();
     _quantityController = TextEditingController();
     _quantityController.text = "1";
+    _orderControllerProvider = OrderController();
   }
 
   @override
@@ -156,141 +157,29 @@ class _OrderViewState extends ConsumerState<OrderView> {
       _priceController.text = order.price.toString();
       _payedController.text = order.payed.toString();
     }
-    await _takeInputs(id, order);
-    _clear();
-  }
-
-  Future<dynamic> _takeInputs(String id, Order? order) {
-    return showModalBottomSheet(
+    await _orderControllerProvider.takeInputs(
       context: context,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(AppSizes.s14),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InputField(
-                label: AppStrings.order.tr(),
-                controller: _orderController,
-              ),
-              InputField(
-                label: AppStrings.name.tr(),
-                controller: _nameController,
-              ),
-              InputField(
-                label: AppStrings.price.tr(),
-                controller: _priceController,
-              ),
-              InputField(
-                label: AppStrings.payed.tr(),
-                controller: _payedController,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: context.colorScheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        final quantity = int.parse(_quantityController.text);
-                        _quantityController.text = (quantity + 1).toString();
-                      },
-                      icon: const Icon(Icons.add),
-                    ),
-                  ),
-                  Container(
-                    width: AppSizes.s50,
-                    height: AppSizes.s50,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: AppSizes.s10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.colorScheme.background,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: TextField(
-                        controller: _quantityController,
-                        textAlign: TextAlign.center,
-                        style: context.textTheme.displaySmall,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: context.colorScheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          final quantity = int.parse(_quantityController.text);
-                          _quantityController.text =
-                              max((quantity - 1), 1).toString();
-                        },
-                        icon: const Icon(Icons.remove),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppSizes.s14),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_nameController.text.isEmpty ||
-                        _orderController.text.isEmpty ||
-                        _priceController.text.isEmpty ||
-                        _payedController.text.isEmpty) {
-                      context.navigator.pop();
-                      return context.snackBar(
-                        message: AppStrings.fillAllFields.tr(),
-                        isError: true,
-                      );
-                    }
-
-                    final quantity = int.parse(_quantityController.text);
-                    for (int i = 0; i < quantity; i++) {
-                      final toAdd = Order(
-                        id: id,
-                        person: _nameController.text,
-                        name: _orderController.text,
-                        price: double.parse(_priceController.text),
-                        payed: i > 0 ? 0 : double.parse(_payedController.text),
-                        remaining: i > 0
-                            ? double.parse(_priceController.text)
-                            : double.parse(_priceController.text) -
-                                double.parse(_payedController.text),
-                      );
-                      order == null
-                          ? await ref
-                              .read(orderProvider.notifier)
-                              .addOrder(toAdd)
-                          : i > 0
-                              ? ref.read(orderProvider.notifier).addOrder(toAdd)
-                              : ref
-                                  .read(orderProvider.notifier)
-                                  .editOrder(toAdd);
-                    }
-                    if (context.mounted) context.navigator.pop();
-                    _clear();
-                  },
-                  child: Text(AppStrings.add.tr()),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+      ref: ref,
+      id: id,
+      order: order,
+      orderController: _orderController,
+      nameController: _nameController,
+      priceController: _priceController,
+      payedController: _payedController,
+      quantityController: _quantityController,
+      addOne: () => setState(() {
+        _quantityController.text =
+            (int.parse(_quantityController.text) + 1).toString();
+      }),
+      minusOne: () => setState(() {
+        if (int.parse(_quantityController.text) > 1) {
+          _quantityController.text =
+              (int.parse(_quantityController.text) - 1).toString();
+        }
+      }),
+      clear: () => _clear(),
     );
+    _clear();
   }
 
   Future<void> _edit(Order order) async {
@@ -332,6 +221,151 @@ class InputField extends StatelessWidget {
           border: const OutlineInputBorder(),
         ),
       ),
+    );
+  }
+}
+
+class OrderController {
+  Future<dynamic> takeInputs({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String id,
+    required Order? order,
+    required TextEditingController orderController,
+    required TextEditingController nameController,
+    required TextEditingController priceController,
+    required TextEditingController payedController,
+    required TextEditingController quantityController,
+    required VoidCallback addOne,
+    required VoidCallback minusOne,
+    required VoidCallback clear,
+  }) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(AppSizes.s14),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InputField(
+                label: AppStrings.order.tr(),
+                controller: orderController,
+              ),
+              InputField(
+                label: AppStrings.name.tr(),
+                controller: nameController,
+              ),
+              InputField(
+                label: AppStrings.price.tr(),
+                controller: priceController,
+              ),
+              InputField(
+                label: AppStrings.payed.tr(),
+                controller: payedController,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      onPressed: addOne,
+                      icon: const Icon(Icons.add),
+                    ),
+                  ),
+                  Container(
+                    width: AppSizes.s50,
+                    height: AppSizes.s50,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: AppSizes.s10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.background,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: TextField(
+                        controller: quantityController,
+                        textAlign: TextAlign.center,
+                        readOnly: true,
+                        style: context.textTheme.displaySmall,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        onPressed: minusOne,
+                        icon: const Icon(Icons.remove),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(AppSizes.s14),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (nameController.text.isEmpty ||
+                        orderController.text.isEmpty ||
+                        priceController.text.isEmpty ||
+                        payedController.text.isEmpty ||
+                        priceController.text.runes
+                            .any((element) => element < 48 || element > 57) ||
+                        payedController.text.runes
+                            .any((element) => element < 48 || element > 57)) {
+                      context.navigator.pop();
+                      return context.snackBar(
+                        message: AppStrings.invalidInputs.tr(),
+                        isError: true,
+                      );
+                    }
+
+                    final quantity = int.parse(quantityController.text);
+                    for (int i = 0; i < quantity; i++) {
+                      final toAdd = Order(
+                        id: id,
+                        person: nameController.text,
+                        name: orderController.text,
+                        price: double.parse(priceController.text),
+                        payed: i > 0 ? 0 : double.parse(payedController.text),
+                        remaining: i > 0
+                            ? double.parse(priceController.text)
+                            : double.parse(priceController.text) -
+                                double.parse(payedController.text),
+                      );
+                      order == null
+                          ? await ref
+                              .read(orderProvider.notifier)
+                              .addOrder(toAdd)
+                          : i > 0
+                              ? ref.read(orderProvider.notifier).addOrder(toAdd)
+                              : ref
+                                  .read(orderProvider.notifier)
+                                  .editOrder(toAdd);
+                    }
+                    if (context.mounted) context.navigator.pop();
+                    clear();
+                  },
+                  child: Text(AppStrings.add.tr()),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

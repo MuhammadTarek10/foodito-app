@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/config/extensions.dart';
+import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
 
@@ -28,7 +29,7 @@ class ProfileOptions extends StatelessWidget {
           ),
           ProfileOption(
             icon: Icons.group,
-            onTap: () => log("Room"),
+            onTap: () => context.navigator.pushNamed(Routes.rooms),
             title: AppStrings.rooms.tr(),
           ),
         ],

@@ -39,6 +39,8 @@ class AppStrings {
   static const String add = "add";
   static const String save = "save";
   static const String check = "check";
+  static const String roomNameHint = "room_name_hint";
+  static const String roomCodeHint = "room_code_hint";
 
   // * Bottom Navigation Bar
   static const String home = "home";
@@ -60,5 +62,5 @@ class AppStrings {
   // * Error Messages
   static const String internal = "internal_server_error";
   static const String noInternet = "no_internet_connection";
-  static const String fillAllFields = "fill_all_fields";
+  static const String invalidInputs = "invalid_Inputs";
 }

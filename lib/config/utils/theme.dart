@@ -24,10 +24,14 @@ class AppTheme {
 
       // * App Bar
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.secondaryColor1,
         elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.black,
+        ),
+        titleTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
         ),
       ),
 

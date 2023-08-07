@@ -9,6 +9,8 @@ import 'package:foodito/features/auth/data/datasources/remote_datasource.dart';
 import 'package:foodito/features/auth/data/repositories/auth_repository_implementer.dart';
 import 'package:foodito/features/home/offline/data/datasource/local_datasource.dart';
 import 'package:foodito/features/home/offline/data/repositories/list_repository_implementer.dart';
+import 'package:foodito/features/home/online/data/datasource/room_datasource.dart';
+import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -61,6 +63,19 @@ Future<void> initApp() async {
   instance.registerFactory<ListRepositoryImplementer>(() =>
       ListRepositoryImplementer(
           dataSource: instance<ListDataSourceImplementer>()));
+
+  // * Room Data Source
+  instance.registerFactory<RoomDatasourceImplementer>(
+      () => RoomDatasourceImplementer(client: instance<AppServiceClient>()));
+
+  // * Room Repository
+  instance.registerFactory<RoomRepositoryImplementer>(
+    () => RoomRepositoryImplementer(
+      prefs: instance<AppPreferences>(),
+      networkInfo: instance<NetworkInfoImp>(),
+      datasource: instance<RoomDatasourceImplementer>(),
+    ),
+  );
 }
 
 Future<void> setTokenDio() async {

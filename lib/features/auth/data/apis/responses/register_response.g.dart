@@ -7,12 +7,14 @@ part of 'register_response.dart';
 // **************************************************************************
 
 UserResponse _$UserResponseFromJson(Map<String, dynamic> json) => UserResponse(
+      json['id'] as int?,
       json['email'] as String?,
       json['name'] as String?,
     );
 
 Map<String, dynamic> _$UserResponseToJson(UserResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'email': instance.email,
       'name': instance.name,
     };

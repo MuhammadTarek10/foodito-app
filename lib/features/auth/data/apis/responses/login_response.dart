@@ -1,17 +1,20 @@
 import 'package:foodito/features/auth/domain/entities/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'register_response.g.dart';
+part 'login_response.g.dart';
 
 @JsonSerializable()
 class UserResponse {
+  @JsonKey(name: "id")
+  int? id;
+
   @JsonKey(name: "email")
   String? email;
 
   @JsonKey(name: "name")
   String? name;
 
-  UserResponse(this.email, this.name);
+  UserResponse(this.id, this.email, this.name);
 
   factory UserResponse.fromJson(Map<String, dynamic> json) =>
       _$UserResponseFromJson(json);
@@ -20,26 +23,27 @@ class UserResponse {
 }
 
 @JsonSerializable()
-class RegisterResponse {
+class LoginResponse {
   @JsonKey(name: "user")
   UserResponse? user;
 
   @JsonKey(name: "token")
   String? token;
 
-  RegisterResponse(this.user, this.token);
+  LoginResponse(this.user, this.token);
 
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterResponseFromJson(json);
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
 
-extension ToDomain on RegisterResponse {
+extension ToDomain on LoginResponse {
   User toDomain() {
     return User(
-      email: user?.email ?? "",
+      id: user?.id.toString() ?? "",
       name: user?.name ?? "",
+      email: user?.email ?? "",
       token: token ?? "",
     );
   }

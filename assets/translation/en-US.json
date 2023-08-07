@@ -39,5 +39,14 @@
   "cancel": "Cancel",
   "add": "Add",
   "save": "Save",
-  "check": "Check"
+  "check": "Check",
+  "invalid_Inputs": "Invalid Inputs",
+  "invalid_email": "Invalid Email",
+  "invalid_password": "Invalid Password",
+  "room_name_hint": "Room Name",
+  "room_name_empty": "Room Name Can't be Empty",
+  "room_name_length": "Room Name Must be at Least 3 Characters",
+  "room_name_taken": "Room Name is Already Taken",
+  "room_name_not_found": "Room Name Not Found",
+  "room_code_hint": "Room Code"
 }
