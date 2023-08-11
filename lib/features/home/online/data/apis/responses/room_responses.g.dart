@@ -93,3 +93,16 @@ Map<String, dynamic> _$GetRoomByCodeResponseToJson(
       'code': instance.code,
       'admin_id': instance.adminId,
     };
+
+GetRoomByIdResponse _$GetRoomByIdResponseFromJson(Map<String, dynamic> json) =>
+    GetRoomByIdResponse(
+      json['room'] == null
+          ? null
+          : GetRoomResponse.fromJson(json['room'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetRoomByIdResponseToJson(
+        GetRoomByIdResponse instance) =>
+    <String, dynamic>{
+      'room': instance.room,
+    };

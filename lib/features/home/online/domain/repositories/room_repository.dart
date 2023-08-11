@@ -7,4 +7,6 @@ abstract class RoomRepository {
   Future<Either<Failure, void>> deleteRoom(String id);
   Future<Either<Failure, Room>> editRoom(Room room);
   Future<Either<Failure, List<Room>>> getRooms();
+
+  Future<Either<Failure, Room>> getRoomById(String id);
 }

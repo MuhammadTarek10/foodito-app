@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
-import 'package:foodito/features/home/online/presentation/state/providers/room_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/rooms_provider.dart';
 
 class CreateRoomView extends StatefulWidget {
   const CreateRoomView({super.key});
@@ -72,7 +72,7 @@ class _CreateRoomViewState extends State<CreateRoomView> {
             child: Consumer(
               builder: (context, ref, child) {
                 return ElevatedButton(
-                  onPressed: () => ref.read(roomProvider.notifier).addRoom(
+                  onPressed: () => ref.read(roomsProvider.notifier).addRoom(
                       _roomNameController.text, _roomCodeController.text),
                   child: const Text('Create Room'),
                 );

@@ -4,36 +4,15 @@ import 'package:foodito/features/home/online/data/repositories/room_repository_i
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/domain/repositories/room_repository.dart';
 
-class RoomsNotifier extends StateNotifier<List<Room>?> {
+class RoomNotifier extends StateNotifier<Room?> {
   final RoomRepository roomRepository = instance<RoomRepositoryImplementer>();
+  RoomNotifier() : super(null);
 
-  RoomsNotifier() : super(null) {
-    getRooms();
-  }
-
-  Future<void> getRooms() async {
-    final result = await roomRepository.getRooms();
+  Future<void> getRoom(String id) async {
+    final result = await roomRepository.getRoomById(id);
     result.fold(
       (failure) => state = null,
-      (rooms) => state = rooms,
+      (room) => state = room,
     );
-  }
-
-  Future<void> addRoom(String name, String code) async {
-    await roomRepository.addRoom(Room(name: name, code: code)).then(
-          (value) => getRooms(),
-        );
-  }
-
-  Future<void> editRoom(String id, String name, String code) async {
-    await roomRepository.editRoom(Room(id: id, name: name, code: code)).then(
-          (value) => getRooms(),
-        );
-  }
-
-  Future<void> deleteRoom(String id) async {
-    await roomRepository.deleteRoom(id).then(
-          (value) => getRooms(),
-        );
   }
 }

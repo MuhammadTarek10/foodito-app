@@ -7,6 +7,7 @@ abstract class RoomDatasource {
   Future<AddRoomResponse> addRoom(String name, String code);
   Future<EditRoomResponse> editRoom(String id, String name, String code);
   Future<DeleteRoomResponse> deleteRoom(String id);
+  Future<GetRoomByIdResponse> getRoomById(String id);
 }
 
 class RoomDatasourceImplementer implements RoomDatasource {
@@ -32,5 +33,10 @@ class RoomDatasourceImplementer implements RoomDatasource {
   @override
   Future<GetRoomsResponse> getRooms() async {
     return await client.getRooms();
+  }
+  
+  @override
+  Future<GetRoomByIdResponse> getRoomById(String id) async {
+    return await client.getRoomById(id);
   }
 }

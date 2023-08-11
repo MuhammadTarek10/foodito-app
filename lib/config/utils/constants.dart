@@ -10,6 +10,7 @@ class AppConstants {
   static const String addRoom = "$baseUrl/room/room";
   static const String editRoom = "$baseUrl/room/update";
   static const String deleteRoom = "$baseUrl/rooms";
+  static const String getRoomById = "$baseUrl/room/{id}";
 
   // * Headers
   static const String contentType = "Content-Type";

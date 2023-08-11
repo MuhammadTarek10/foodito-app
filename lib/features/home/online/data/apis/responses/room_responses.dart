@@ -142,3 +142,16 @@ class GetRoomByCodeResponse {
 
   Map<String, dynamic> toJson() => _$GetRoomByCodeResponseToJson(this);
 }
+
+@JsonSerializable()
+class GetRoomByIdResponse {
+  @JsonKey(name: "room")
+  GetRoomResponse? room;
+
+  GetRoomByIdResponse(this.room);
+
+  factory GetRoomByIdResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetRoomByIdResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetRoomByIdResponseToJson(this);
+}
