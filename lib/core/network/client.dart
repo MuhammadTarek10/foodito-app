@@ -36,5 +36,5 @@ abstract class AppServiceClient {
   Future<DeleteRoomResponse> deleteRoom(@Body() DeleteRoomRequest request);
 
   @GET(AppConstants.getRoomById)
-  Future<GetRoomByIdResponse> getRoomById(@Path() String id);
+  Future<EnterRoomResponse> enterRoom(@Path() String id);
 }

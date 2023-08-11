@@ -1,12 +1,13 @@
 import 'dart:ffi';
 
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' show Either, Right, Left;
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/core/network/error/failure.dart';
 import 'package:foodito/core/network/network_info.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/home/online/data/apis/responses/room_responses.dart';
 import 'package:foodito/features/home/online/data/datasource/room_datasource.dart';
+import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/domain/repositories/room_repository.dart';
 
@@ -86,12 +87,14 @@ class RoomRepositoryImplementer implements RoomRepository {
   }
 
   @override
-  Future<Either<Failure, Room>> getRoomById(String id) async {
+  Future<Either<Failure, List<Order>>> enterRoom(String id) async {
     if (await networkInfo.isConnected) {
       try {
-        final user = prefs.getUser();
-        final response = await datasource.getRoomById(id);
-        return Right(response.room!.toDomain(user!.id!));
+        final response = await datasource.enterRoom(id);
+        final orders = response.orders != null
+            ? response.orders!.map((e) => e.toDomain()).toList()
+            : [];
+        return Right(orders as List<Order>);
       } catch (e) {
         return Left(Failure(500, AppStrings.internal));
       }

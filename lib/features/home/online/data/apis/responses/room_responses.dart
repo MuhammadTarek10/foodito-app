@@ -1,3 +1,4 @@
+import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -144,14 +145,56 @@ class GetRoomByCodeResponse {
 }
 
 @JsonSerializable()
-class GetRoomByIdResponse {
-  @JsonKey(name: "room")
-  GetRoomResponse? room;
+class OrderResponse {
+  @JsonKey(name: "id")
+  int? id;
 
-  GetRoomByIdResponse(this.room);
+  @JsonKey(name: "user_id")
+  int? userId;
 
-  factory GetRoomByIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoomByIdResponseFromJson(json);
+  @JsonKey(name: "food")
+  String? food;
 
-  Map<String, dynamic> toJson() => _$GetRoomByIdResponseToJson(this);
+  @JsonKey(name: "username")
+  String? username;
+
+  @JsonKey(name: "restaurant")
+  String? restaurant;
+
+  @JsonKey(name: "price")
+  String? price;
+
+  OrderResponse(this.id, this.userId, this.food, this.username, this.restaurant,
+      this.price);
+
+  factory OrderResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderResponseToJson(this);
+}
+
+@JsonSerializable()
+class EnterRoomResponse {
+  @JsonKey(name: "orders")
+  List<OrderResponse>? orders;
+
+  EnterRoomResponse(this.orders);
+
+  factory EnterRoomResponse.fromJson(Map<String, dynamic> json) =>
+      _$EnterRoomResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EnterRoomResponseToJson(this);
+}
+
+extension OrderResponseExtension on OrderResponse {
+  Order toDomain() {
+    return Order(
+      id: id.toString(),
+      userId: userId.toString(),
+      food: food!,
+      username: username!,
+      restaurant: restaurant,
+      price: double.parse(price ?? '0.0'),
+    );
+  }
 }

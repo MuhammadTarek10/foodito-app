@@ -94,15 +94,34 @@ Map<String, dynamic> _$GetRoomByCodeResponseToJson(
       'admin_id': instance.adminId,
     };
 
-GetRoomByIdResponse _$GetRoomByIdResponseFromJson(Map<String, dynamic> json) =>
-    GetRoomByIdResponse(
-      json['room'] == null
-          ? null
-          : GetRoomResponse.fromJson(json['room'] as Map<String, dynamic>),
+OrderResponse _$OrderResponseFromJson(Map<String, dynamic> json) =>
+    OrderResponse(
+      json['id'] as int?,
+      json['user_id'] as int?,
+      json['food'] as String?,
+      json['username'] as String?,
+      json['restaurant'] as String?,
+      json['price'] as String?,
     );
 
-Map<String, dynamic> _$GetRoomByIdResponseToJson(
-        GetRoomByIdResponse instance) =>
+Map<String, dynamic> _$OrderResponseToJson(OrderResponse instance) =>
     <String, dynamic>{
-      'room': instance.room,
+      'id': instance.id,
+      'user_id': instance.userId,
+      'food': instance.food,
+      'username': instance.username,
+      'restaurant': instance.restaurant,
+      'price': instance.price,
+    };
+
+EnterRoomResponse _$EnterRoomResponseFromJson(Map<String, dynamic> json) =>
+    EnterRoomResponse(
+      (json['orders'] as List<dynamic>?)
+          ?.map((e) => OrderResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$EnterRoomResponseToJson(EnterRoomResponse instance) =>
+    <String, dynamic>{
+      'orders': instance.orders,
     };

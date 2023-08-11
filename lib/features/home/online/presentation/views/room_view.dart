@@ -19,11 +19,12 @@ class _RoomViewState extends ConsumerState<RoomView> {
   @override
   void initState() {
     super.initState();
-    ref.read(roomProvider.notifier).getRoom(widget.room.id!);
+    ref.read(roomProvider.notifier).enterRoom(widget.room.id!);
   }
 
   @override
   Widget build(BuildContext context) {
+    final orders = ref.watch(roomProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.room.name),
