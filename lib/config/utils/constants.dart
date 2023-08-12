@@ -36,4 +36,5 @@ class AppConstants {
   // * Socket Events
   static const String addOrder = "addOrder";
   static const String getOrders = "getOrders";
+  static const String doneOrders = "doneOrders";
 }

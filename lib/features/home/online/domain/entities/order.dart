@@ -34,10 +34,10 @@ class Order {
   }
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-        id: json['id'] as String?,
-        userId: json['userId'] as String?,
+        id: json['id'].toString(),
+        userId: json['userId'].toString(),
         food: json['food'] as String,
-        price: json['price'] as double?,
+        price: double.parse(json['price']),
         username: json['username'] as String,
         restaurant: json['restaurant'] as String?,
       );
