@@ -4,6 +4,7 @@ import 'package:foodito/core/media.dart';
 import 'package:foodito/core/network/client.dart';
 import 'package:foodito/core/network/dio_factory.dart';
 import 'package:foodito/core/network/network_info.dart';
+import 'package:foodito/core/network/socket.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/auth/data/datasources/remote_datasource.dart';
 import 'package:foodito/features/auth/data/repositories/auth_repository_implementer.dart';
@@ -11,6 +12,7 @@ import 'package:foodito/features/home/offline/data/datasource/local_datasource.d
 import 'package:foodito/features/home/offline/data/repositories/list_repository_implementer.dart';
 import 'package:foodito/features/home/online/data/datasource/room_datasource.dart';
 import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
+import 'package:foodito/features/home/online/data/repositories/socket_repository_implementer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,6 +77,14 @@ Future<void> initApp() async {
       networkInfo: instance<NetworkInfoImp>(),
       datasource: instance<RoomDatasourceImplementer>(),
     ),
+  );
+
+  instance.registerFactory<SocketClient>(
+    () => SocketClient.instance,
+  );
+
+  instance.registerFactory<SocketRepositoryImplementer>(
+    () => SocketRepositoryImplementer(client: instance<SocketClient>()),
   );
 }
 

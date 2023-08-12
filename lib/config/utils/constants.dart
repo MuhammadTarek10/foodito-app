@@ -1,5 +1,7 @@
 class AppConstants {
-  static const String baseUrl = "http://localhost:3000/api/v1";
+  // * Base Url
+  static const String base = "http://localhost:3000";
+  static const String baseUrl = "$base/api/v1";
   // * Auth
   static const String login = "$baseUrl/users/login";
   static const String register = "$baseUrl/users/register";
@@ -30,4 +32,8 @@ class AppConstants {
   static const String isSeenOnBoarding = "isSeenOnBoarding";
   static const String isLoggedIn = "isLoggedIn";
   static const String user = "user";
+
+  // * Socket Events
+  static const String addOrder = "addOrder";
+  static const String getOrders = "getOrders";
 }
