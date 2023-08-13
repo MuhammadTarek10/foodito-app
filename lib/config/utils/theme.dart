@@ -22,6 +22,12 @@ class AppTheme {
       // * Scaffold
       // scaffoldBackgroundColor: Colors.white.withOpacity(0.95),
 
+      // * Floating Action Button
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: Colors.white,
+      ),
+
       // * App Bar
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.secondaryColor1,

@@ -10,6 +10,7 @@ import 'package:foodito/core/di.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/home/offline/domain/entities/order.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -43,6 +44,13 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     prefs.getLocale().then((locale) => {context.setLocale(locale)});
+    InAppUpdate.checkForUpdate().then(
+      (value) {
+        if (value.updateAvailability == UpdateAvailability.updateAvailable) {
+          InAppUpdate.startFlexibleUpdate().then((value) => null);
+        }
+      },
+    );
     super.didChangeDependencies();
   }
 

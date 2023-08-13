@@ -6,9 +6,9 @@ import 'package:foodito/features/auth/presentation/views/reset_password_view.dar
 import 'package:foodito/features/auth/presentation/views/verification_code_view.dart';
 import 'package:foodito/features/home/offline/presentation/views/orders_view.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
-import 'package:foodito/features/home/online/presentation/views/create_room_view.dart';
-import 'package:foodito/features/home/online/presentation/views/room_view.dart';
-import 'package:foodito/features/home/online/presentation/views/rooms_view.dart';
+import 'package:foodito/features/home/online/presentation/views/room/create_room_view.dart';
+import 'package:foodito/features/home/online/presentation/views/room/room_view.dart';
+import 'package:foodito/features/home/online/presentation/views/room/rooms_view.dart';
 import 'package:foodito/features/home/presentation/views/main/main_view.dart';
 import 'package:foodito/features/splash_view.dart';
 

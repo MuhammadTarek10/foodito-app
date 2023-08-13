@@ -11,6 +11,5 @@ class SocketRepositoryImplementer implements SocketRepository {
   @override
   void addOrder(AddOrder order) {
     client.socket!.emit(AppConstants.addOrder, order.toJson());
-    client.socket!.emit(AppConstants.getOrders, order.roomId);
   }
 }

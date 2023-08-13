@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/config/utils/constants.dart';
 import 'package:foodito/core/di.dart';
 import 'package:foodito/features/home/online/data/repositories/socket_repository_implementer.dart';
+import 'package:foodito/features/home/online/domain/entities/add_order.dart';
 import 'package:foodito/features/home/online/domain/entities/order.dart';
 
 final remoteOrderProvider =
@@ -21,3 +22,8 @@ final remoteOrderProvider =
     return controller.stream as Stream<List<Order>>;
   },
 );
+
+void addOrderProvider(AddOrder order) {
+  final socketRepository = instance<SocketRepositoryImplementer>();
+  socketRepository.addOrder(order);
+}
