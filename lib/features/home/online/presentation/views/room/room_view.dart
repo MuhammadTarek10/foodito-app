@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodito/features/home/online/domain/entities/add_order.dart';
 import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/order_provider.dart';
@@ -26,6 +27,12 @@ class _RoomViewState extends ConsumerState<RoomView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    leaveRoomProvider(widget.room.id!);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ordersStream = ref.watch(remoteOrderProvider(widget.room.id!));
     final userId = ref.watch(userIdProvider);
@@ -39,7 +46,13 @@ class _RoomViewState extends ConsumerState<RoomView> {
         title: Text(widget.room.name),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => addOrderProvider(
+          AddOrder(
+            userId: userId.toString(),
+            foodId: 1.toString(),
+            roomId: widget.room.id!,
+          ),
+        ),
         child: const Icon(Icons.add),
       ),
       body: ordersStream.when(

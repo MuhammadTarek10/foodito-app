@@ -13,6 +13,7 @@ final remoteOrderProvider =
     final StreamController controller = StreamController<List<Order>>();
     final socketRepository = instance<SocketRepositoryImplementer>();
 
+    socketRepository.client.socket!.emit(AppConstants.joinRoom, roomId);
     socketRepository.client.socket!.emit(AppConstants.getOrders, roomId);
 
     socketRepository.client.socket!.on(AppConstants.doneOrders, (data) {
@@ -26,4 +27,9 @@ final remoteOrderProvider =
 void addOrderProvider(AddOrder order) {
   final socketRepository = instance<SocketRepositoryImplementer>();
   socketRepository.addOrder(order);
+}
+
+void leaveRoomProvider(String roomId) {
+  final socketRepository = instance<SocketRepositoryImplementer>();
+  socketRepository.client.socket!.emit(AppConstants.leaveRoom, roomId);
 }

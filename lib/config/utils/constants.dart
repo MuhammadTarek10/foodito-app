@@ -37,4 +37,6 @@ class AppConstants {
   static const String addOrder = "addOrder";
   static const String getOrders = "getOrders";
   static const String doneOrders = "doneOrders";
+  static const String joinRoom = "joinRoom";
+  static const String leaveRoom = "leaveRoom";
 }

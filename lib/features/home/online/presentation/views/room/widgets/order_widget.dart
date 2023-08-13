@@ -74,7 +74,7 @@ class OrderWidget extends StatelessWidget {
                   ),
                   Text(
                     order.restaurant.toString(),
-                    style: context.textTheme.titleMedium,
+                    style: context.textTheme.displaySmall,
                   ),
                   RichText(
                     text: TextSpan(
