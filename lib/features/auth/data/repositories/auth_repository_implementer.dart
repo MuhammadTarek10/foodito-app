@@ -28,7 +28,7 @@ class AuthRepositoryImplementer implements AuthRepository {
         final response = await remoteDataSource.login(email, password);
         final user = response.toDomain();
         prefs.setUser(user);
-        prefs.setToken(user.token);
+        prefs.setToken(user.token!);
         prefs.setLoggedIn();
         prefs.setSeenOnBoarding();
         await setTokenDio();
@@ -49,7 +49,7 @@ class AuthRepositoryImplementer implements AuthRepository {
         final response = await remoteDataSource.register(name, email, password);
         final user = response.toDomain();
         prefs.setUser(user);
-        prefs.setToken(user.token);
+        prefs.setToken(user.token!);
         prefs.setLoggedIn();
         prefs.setSeenOnBoarding();
         await setTokenDio();

@@ -23,12 +23,12 @@ class RoomRepositoryImplementer implements RoomRepository {
   });
 
   @override
-  Future<Either<Failure, Room>> addRoom(Room room) async {
+  Future<Either<Failure, void>> addRoom(Room room) async {
     if (await networkInfo.isConnected) {
       try {
-        final user = prefs.getUser();
-        final response = await datasource.addRoom(room.name, room.code);
-        return Right(response.toDomain(user!.id!));
+        await datasource.addRoom(room.name, room.code);
+        // ignore: void_checks
+        return const Right(Void);
       } catch (e) {
         return Left(Failure(500, AppStrings.internal));
       }

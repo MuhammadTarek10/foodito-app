@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodito/config/extensions.dart';
+import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
@@ -72,9 +74,23 @@ class _CreateRoomViewState extends State<CreateRoomView> {
             child: Consumer(
               builder: (context, ref, child) {
                 return ElevatedButton(
-                  onPressed: () => ref.read(roomsProvider.notifier).addRoom(
-                      _roomNameController.text, _roomCodeController.text),
-                  child: const Text('Create Room'),
+                  onPressed: () async {
+                    final result = await ref
+                        .read(roomsProvider.notifier)
+                        .addRoom(
+                            _roomNameController.text, _roomCodeController.text);
+                    if (context.mounted) {
+                      if (result == true) {
+                        context.navigator.pushReplacementNamed(Routes.rooms);
+                      } else {
+                        context.snackBar(
+                          message: AppStrings.unknownError.tr(),
+                          isError: true,
+                        );
+                      }
+                    }
+                  },
+                  child: Text(AppStrings.createRoom.tr()),
                 );
               },
             ),

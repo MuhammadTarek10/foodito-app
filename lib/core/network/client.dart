@@ -27,7 +27,7 @@ abstract class AppServiceClient {
   Future<GetRoomsResponse> getRooms();
 
   @POST(AppConstants.addRoom)
-  Future<AddRoomResponse> addRoom(@Body() AddRoomRequest request);
+  Future<void> addRoom(@Body() AddRoomRequest request);
 
   @PUT(AppConstants.editRoom)
   Future<EditRoomResponse> editRoom(@Body() EditRoomRequest request);

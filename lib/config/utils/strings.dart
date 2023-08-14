@@ -41,6 +41,10 @@ class AppStrings {
   static const String check = "check";
   static const String roomNameHint = "room_name_hint";
   static const String roomCodeHint = "room_code_hint";
+  static const String createRoom = "create_room";
+  static const String orders = "orders";
+  static const String members = "members";
+  static const String food = "food";
 
   // * Bottom Navigation Bar
   static const String home = "home";

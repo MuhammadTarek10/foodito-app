@@ -122,6 +122,12 @@ class GetRoomsResponse {
   Map<String, dynamic> toJson() => _$GetRoomsResponseToJson(this);
 }
 
+extension GetRoomsResponseExtension on GetRoomsResponse {
+  List<Room> toDomain(String userId) {
+    return rooms!.map((e) => e.toDomain(userId)).toList();
+  }
+}
+
 @JsonSerializable()
 class GetRoomByCodeResponse {
   @JsonKey(name: "id")

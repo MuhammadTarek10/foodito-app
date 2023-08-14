@@ -19,10 +19,14 @@ class RoomsNotifier extends StateNotifier<List<Room>?> {
     );
   }
 
-  Future<void> addRoom(String name, String code) async {
-    await roomRepository.addRoom(Room(name: name, code: code)).then(
-          (value) => getRooms(),
-        );
+  Future<bool> addRoom(String name, String code) async {
+    bool result = false;
+    (await roomRepository.addRoom(Room(name: name, code: code))).fold(
+      (l) => result = false,
+      (r) => result = true,
+    );
+
+    return result;
   }
 
   Future<void> editRoom(String id, String name, String code) async {

@@ -48,5 +48,8 @@
   "room_name_length": "Room Name Must be at Least 3 Characters",
   "room_name_taken": "Room Name is Already Taken",
   "room_name_not_found": "Room Name Not Found",
-  "room_code_hint": "Room Code"
+  "room_code_hint": "Room Code",
+  "orders": "Orders",
+  "members": "Members",
+  "food": "Food"
 }

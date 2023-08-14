@@ -5,21 +5,21 @@ class User {
   final String? id;
   final String name;
   final String email;
-  final String token;
+  final String? token;
 
   const User({
     this.id,
     required this.name,
     required this.email,
-    required this.token,
+    this.token,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] as String?,
+      id: json['id'].toString(),
       name: json['name'] as String,
       email: json['email'] as String,
-      token: json['token'] as String,
+      token: json['token'].toString(),
     );
   }
 

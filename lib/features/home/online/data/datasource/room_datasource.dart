@@ -4,7 +4,7 @@ import 'package:foodito/features/home/online/data/apis/responses/room_responses.
 
 abstract class RoomDatasource {
   Future<GetRoomsResponse> getRooms();
-  Future<AddRoomResponse> addRoom(String name, String code);
+  Future<void> addRoom(String name, String code);
   Future<EditRoomResponse> editRoom(String id, String name, String code);
   Future<DeleteRoomResponse> deleteRoom(String id);
   Future<EnterRoomResponse> enterRoom(String id);
@@ -16,7 +16,7 @@ class RoomDatasourceImplementer implements RoomDatasource {
   RoomDatasourceImplementer({required this.client});
 
   @override
-  Future<AddRoomResponse> addRoom(String name, String code) async {
+  Future<void> addRoom(String name, String code) async {
     return await client.addRoom(AddRoomRequest(name, code));
   }
 

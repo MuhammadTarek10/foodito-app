@@ -18,7 +18,7 @@ class Food {
   factory Food.fromJson(Map<String, dynamic> json) => Food(
         id: json["id"].toString(),
         name: json["name"],
-        price: json["price"].toDouble(),
+        price: double.parse(json["price"]),
         restaurant: json["restaurant"],
         categoryId: json["category_id"].toString(),
         username: json["username"],
