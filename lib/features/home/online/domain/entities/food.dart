@@ -3,7 +3,7 @@ class Food {
   final String name;
   final double? price;
   final String? restaurant;
-  final String categoryId;
+  final String? categoryId;
   final String username;
 
   Food({
@@ -11,7 +11,7 @@ class Food {
     required this.name,
     this.price,
     this.restaurant,
-    required this.categoryId,
+    this.categoryId,
     required this.username,
   });
 
@@ -25,7 +25,7 @@ class Food {
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "id": id,
         "name": name,
         "price": price,
         "restaurant": restaurant,

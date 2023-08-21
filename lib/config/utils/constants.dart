@@ -14,6 +14,10 @@ class AppConstants {
   static const String deleteRoom = "$baseUrl/rooms";
   static const String getRoomById = "$baseUrl/room/{id}";
 
+  // * Food
+  static const String addFood = "$baseUrl/food/food";
+  static const String getRoodByRoom = "$baseUrl/food/food/room/{id}";
+
   // * Headers
   static const String contentType = "Content-Type";
   static const String applicationJson = "application/json";
@@ -40,7 +44,7 @@ class AppConstants {
   static const String joinRoom = "joinRoom";
   static const String leaveRoom = "leaveRoom";
   static const String getFood = "getFood";
-  static const String addFood = "addFood";
+  static const String addFoodSocket = "addFood";
   static const String doneFood = "doneFood";
   static const String getMembers = "getMembers";
   static const String doneMembers = "doneMembers";

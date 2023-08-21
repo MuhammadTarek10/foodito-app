@@ -4,7 +4,7 @@ class AddFood {
   final String name;
   final double? price;
   final String? restaurant;
-  final String categoryId;
+  final String? categoryId;
   final String roomId;
 
   AddFood({
@@ -13,7 +13,7 @@ class AddFood {
     required this.name,
     this.price,
     this.restaurant,
-    required this.categoryId,
+    this.categoryId,
     required this.roomId,
   });
 

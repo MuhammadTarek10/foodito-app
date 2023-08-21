@@ -10,7 +10,9 @@ import 'package:foodito/features/auth/data/datasources/remote_datasource.dart';
 import 'package:foodito/features/auth/data/repositories/auth_repository_implementer.dart';
 import 'package:foodito/features/home/offline/data/datasource/local_datasource.dart';
 import 'package:foodito/features/home/offline/data/repositories/list_repository_implementer.dart';
+import 'package:foodito/features/home/online/data/datasource/food_datasource.dart';
 import 'package:foodito/features/home/online/data/datasource/room_datasource.dart';
+import 'package:foodito/features/home/online/data/repositories/food_repository_implementer.dart';
 import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
 import 'package:foodito/features/home/online/data/repositories/socket_repository_implementer.dart';
 import 'package:get_it/get_it.dart';
@@ -85,6 +87,15 @@ Future<void> initApp() async {
 
   instance.registerFactory<SocketRepositoryImplementer>(
     () => SocketRepositoryImplementer(client: instance<SocketClient>()),
+  );
+
+  instance.registerFactory<FoodDataSourceImplementer>(
+    () => FoodDataSourceImplementer(client: instance<AppServiceClient>()),
+  );
+
+  instance.registerFactory<FoodRepositoryImplementer>(
+    () => FoodRepositoryImplementer(
+        dataSource: instance<FoodDataSourceImplementer>()),
   );
 }
 

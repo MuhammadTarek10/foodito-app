@@ -46,6 +46,16 @@ class AppStrings {
   static const String members = "members";
   static const String food = "food";
 
+  // * Food
+  static const String addFood = "add_food";
+  static const String addFoodName = "add_food_name";
+  static const String addFoodPrice = "add_food_price";
+  static const String addFoodRestaurant = "add_food_restaurant";
+  static const String addFoodCategory = "add_food_category";
+
+  // * Orders
+  static const String howManyOrders = "how_many_orders";
+
   // * Bottom Navigation Bar
   static const String home = "home";
   static const String settings = "settings";

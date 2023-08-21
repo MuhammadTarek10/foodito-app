@@ -24,9 +24,11 @@ final remoteOrderProvider =
   },
 );
 
-void addOrderProvider(AddOrder order) {
+void addOrderProvider(AddOrder order, int quantity) {
   final socketRepository = instance<SocketRepositoryImplementer>();
-  socketRepository.addOrder(order);
+  for (int i = 0; i < quantity; i++) {
+    socketRepository.client.socket!.emit(AppConstants.addOrder, order.toJson());
+  }
 }
 
 void leaveRoomProvider(String roomId) {

@@ -51,5 +51,10 @@
   "room_code_hint": "Room Code",
   "orders": "Orders",
   "members": "Members",
-  "food": "Food"
+  "food": "Food",
+  "add_food": "Add Food",
+  "add_food_name": "Food Name",
+  "add_food_price": "Food Price",
+  "add_food_restaurant": "Restaurant Name (Optional)",
+  "how_many_orders": "How Many Orders?"
 }

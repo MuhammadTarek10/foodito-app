@@ -72,10 +72,12 @@ class OrderWidget extends StatelessWidget {
                     order.food.toString(),
                     style: context.textTheme.titleLarge,
                   ),
-                  Text(
-                    order.restaurant.toString(),
-                    style: context.textTheme.displaySmall,
-                  ),
+                  order.restaurant != null
+                      ? Text(
+                          order.restaurant.toString(),
+                          style: context.textTheme.displaySmall,
+                        )
+                      : Container(),
                   RichText(
                     text: TextSpan(
                       text: "${AppStrings.price.tr()}: ",

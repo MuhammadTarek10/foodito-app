@@ -1,21 +1,21 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodito/config/extensions.dart';
-import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
 import 'package:foodito/features/auth/domain/entities/user.dart';
+import 'package:foodito/features/home/online/domain/entities/food.dart';
+import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/food_provider.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/members_provider.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/order_provider.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/user_provider.dart';
+import 'package:foodito/features/home/online/presentation/views/room/widgets/food_dialog.dart';
 import 'package:foodito/features/home/online/presentation/views/room/widgets/food_widget.dart';
 import 'package:foodito/features/home/online/presentation/views/room/widgets/order_widget.dart';
+import 'package:foodito/features/home/online/presentation/views/room/widgets/user_widget.dart';
 
 class RoomView extends ConsumerStatefulWidget {
   const RoomView({
@@ -70,103 +70,104 @@ class _RoomViewState extends ConsumerState<RoomView>
             labelColor: context.colorScheme.onSecondary,
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (_tabController.index == 0) log("orders");
-            if (_tabController.index == 1) log("food");
-            if (_tabController.index == 2) log("members");
-          },
-          child: const Icon(Icons.add),
-        ),
         body: TabBarView(
           controller: _tabController,
           children: [
-            ordersStream.when(
-              data: (data) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final order = data[index];
-                    return OrderWidget(
-                      index: index,
-                      order: order,
-                      isAdmin: widget.room.isAdmin || order.userId == userId,
-                      onEdit: (order) {},
-                      onDelete: (order) {},
-                    );
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) => const Text('Error'),
-            ),
-            foodStream.when(
-              data: (data) {
-                return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.5,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final food = data[index];
-                    return FoodWidget(food: food);
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) => const Text('Error'),
-            ),
-            membersStream.when(
-              data: (data) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final user = data[index];
-                    return UserWidget(user: user);
-                  },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) => const Text('Error'),
-            ),
+            _buildOrders(ordersStream, userId.toString()),
+            _buildFood(foodStream, userId.toString()),
+            _buildMembers(membersStream),
           ],
         ),
       ),
     );
   }
-}
 
-class UserWidget extends StatelessWidget {
-  const UserWidget({
-    super.key,
-    required this.user,
-  });
+  Widget _buildOrders(AsyncValue<List<Order>> ordersStream, String userId) {
+    return ordersStream.when(
+      data: (data) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final order = data[index];
+            return OrderWidget(
+              index: index,
+              order: order,
+              isAdmin: widget.room.isAdmin || order.userId == userId,
+              onEdit: (order) {},
+              onDelete: (order) {},
+            );
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => const Text('Error'),
+    );
+  }
 
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          color: context.colorScheme.background,
-          borderRadius: BorderRadius.circular(AppSizes.s8),
-          boxShadow: [
-            BoxShadow(
-              color: context.colorScheme.onBackground.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+  Widget _buildFood(AsyncValue<List<Food>> foodStream, String userId) {
+    return foodStream.when(
+      data: (data) {
+        return Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                ),
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final food = data[index];
+                  return FoodWidget(
+                    food: food,
+                    roomId: widget.room.id.toString(),
+                    userId: userId,
+                  );
+                },
+              ),
             ),
-          ]),
-      child: ListTile(
-        leading: const Icon(Icons.people),
-        title: Text(user.name),
-        trailing: SvgPicture.asset(AppAssets.delete),
-      ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(
+                horizontal: AppSizes.s20,
+                vertical: AppSizes.s14,
+              ),
+              child: ElevatedButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => AddFoodDialog(
+                    userId: userId,
+                    roomId: widget.room.id.toString(),
+                    onAdd: (food) => addFoodProvider(food),
+                  ),
+                ),
+                child: Text(AppStrings.add.tr()),
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => const Text('Error'),
+    );
+  }
+
+  Widget _buildMembers(AsyncValue<List<User>> membersStream) {
+    return membersStream.when(
+      data: (data) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final user = data[index];
+            return UserWidget(user: user);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => const Text('Error'),
     );
   }
 }

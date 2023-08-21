@@ -4,7 +4,9 @@ import 'package:foodito/features/auth/data/apis/requests/login_request.dart';
 import 'package:foodito/features/auth/data/apis/requests/register_request.dart';
 import 'package:foodito/features/auth/data/apis/responses/login_response.dart';
 import 'package:foodito/features/auth/data/apis/responses/register_response.dart';
+import 'package:foodito/features/home/online/data/apis/requests/food_requests.dart';
 import 'package:foodito/features/home/online/data/apis/requests/room_requests.dart';
+import 'package:foodito/features/home/online/data/apis/responses/food_responses.dart';
 import 'package:foodito/features/home/online/data/apis/responses/room_responses.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -37,4 +39,10 @@ abstract class AppServiceClient {
 
   @GET(AppConstants.getRoomById)
   Future<EnterRoomResponse> enterRoom(@Path() String id);
+
+  @POST(AppConstants.addFood)
+  Future<void> addFood(@Body() AddFoodRequest request);
+
+  @GET(AppConstants.getRoodByRoom)
+  Future<GetFoodsResponse> getFoodInRoom(@Path() String id);
 }

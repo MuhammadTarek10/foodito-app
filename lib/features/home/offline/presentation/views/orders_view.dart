@@ -313,9 +313,8 @@ class OrderController {
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
-                padding: const EdgeInsets.all(AppSizes.s14),
                 child: ElevatedButton(
                   onPressed: () async {
                     if (nameController.text.isEmpty ||

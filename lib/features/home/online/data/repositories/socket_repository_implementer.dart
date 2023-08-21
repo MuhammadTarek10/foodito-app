@@ -16,6 +16,6 @@ class SocketRepositoryImplementer implements SocketRepository {
 
   @override
   void addFood(AddFood food) {
-    client.socket!.emit(AppConstants.addFood, food.toJson());
+    client.socket!.emit(AppConstants.addFoodSocket, food.toJson());
   }
 }
