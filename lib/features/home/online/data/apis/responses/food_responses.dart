@@ -44,7 +44,6 @@ class GetFoodResponse {
   Map<String, dynamic> toJson() => _$GetFoodResponseToJson(this);
 }
 
-
 @JsonSerializable()
 class GetFoodsResponse {
   @JsonKey(name: "foods")

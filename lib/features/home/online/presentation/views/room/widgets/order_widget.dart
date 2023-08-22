@@ -97,27 +97,14 @@ class OrderWidget extends StatelessWidget {
             ],
           ),
           isAdmin
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: AppSizes.s10,
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(AppAssets.edit),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSizes.s10,
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(AppAssets.delete),
-                      ),
-                    ),
-                  ],
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSizes.s10,
+                  ),
+                  child: InkWell(
+                    onTap: () => onDelete(order),
+                    child: SvgPicture.asset(AppAssets.delete),
+                  ),
                 )
               : Container(),
         ],

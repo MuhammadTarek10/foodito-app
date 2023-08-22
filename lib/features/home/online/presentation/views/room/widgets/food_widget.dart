@@ -1,11 +1,12 @@
-import 'dart:developer';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:foodito/config/extensions.dart';
+import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
 import 'package:foodito/features/home/online/domain/entities/add_order.dart';
 import 'package:foodito/features/home/online/domain/entities/food.dart';
-import 'package:foodito/features/home/online/presentation/state/providers/order_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/food_socket_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/order_socket_provider.dart';
 import 'package:foodito/features/home/online/presentation/views/room/widgets/order_dialog.dart';
 
 class FoodWidget extends StatelessWidget {
@@ -36,7 +37,12 @@ class FoodWidget extends StatelessWidget {
           ),
         ),
       ),
-      onLongPress: () => log("Delete"),
+      onLongPress: () => showDialog(
+        context: context,
+        builder: (context) => DeleteConfirmationDialog(
+          onDelete: () => deleteFoodProvider(food),
+        ),
+      ),
       child: Container(
         margin: const EdgeInsets.all(AppSizes.s8),
         padding: const EdgeInsets.all(AppSizes.s8),
@@ -90,9 +96,54 @@ class FoodWidget extends StatelessWidget {
                 ),
               ),
             ),
+            food.restaurant != null
+                ? Padding(
+                    padding: const EdgeInsets.all(AppSizes.s4),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: food.restaurant,
+                            style: context.textTheme.displaySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class DeleteConfirmationDialog extends StatelessWidget {
+  const DeleteConfirmationDialog({
+    super.key,
+    required this.onDelete,
+  });
+
+  final VoidCallback onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(AppStrings.deleteFood.tr()),
+      content: Text(AppStrings.deleteFoodConfirmation.tr()),
+      actions: [
+        TextButton(
+          onPressed: () {
+            onDelete();
+            context.navigator.pop();
+          },
+          child: Text(AppStrings.delete.tr()),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppStrings.cancel.tr()),
+        ),
+      ],
     );
   }
 }

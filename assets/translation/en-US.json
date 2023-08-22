@@ -56,5 +56,11 @@
   "add_food_name": "Food Name",
   "add_food_price": "Food Price",
   "add_food_restaurant": "Restaurant Name (Optional)",
-  "how_many_orders": "How Many Orders?"
+  "how_many_orders": "How Many Orders?",
+  "delete_food": "Delete Food",
+  "delete": "Delete",
+  "delete_food_confirmation": "Are you sure you want to delete this food?",
+  "settings": "Settings",
+  "help": "Help",
+  "about": "About"
 }

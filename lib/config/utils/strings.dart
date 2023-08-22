@@ -23,8 +23,8 @@ class AppStrings {
   static const String verification = "verification";
   static const String continueWithGoogle = "google_sign_in";
   static const String hello = "hello";
-  static const String history = "history";
   static const String rooms = "rooms";
+  static const String delete = "delete";
 
   static const String chooseMethod = "choose_ordering_method";
   static const String search = "search";
@@ -52,15 +52,21 @@ class AppStrings {
   static const String addFoodPrice = "add_food_price";
   static const String addFoodRestaurant = "add_food_restaurant";
   static const String addFoodCategory = "add_food_category";
+  static const String deleteFood = "delete_food";
+  static const String deleteFoodConfirmation = "delete_food_confirmation";
 
   // * Orders
   static const String howManyOrders = "how_many_orders";
 
   // * Bottom Navigation Bar
   static const String home = "home";
-  static const String settings = "settings";
-  static const String inbox = "inbox";
   static const String profile = "profile";
+
+  // * Profile
+  static const String history = "history";
+  static const String settings = "settings";
+  static const String help = "help";
+  static const String about = "about";
 
   // * Messages
   static const String loginSuccessfully = "login_successfully";

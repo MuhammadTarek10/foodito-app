@@ -35,3 +35,22 @@ void leaveRoomProvider(String roomId) {
   final socketRepository = instance<SocketRepositoryImplementer>();
   socketRepository.client.socket!.emit(AppConstants.leaveRoom, roomId);
 }
+
+class OrderController {
+  final socketRepository = instance<SocketRepositoryImplementer>();
+
+  Future<void> deleteOrder(String id, String roomId) async {
+    socketRepository.client.socket!.emit(
+      AppConstants.deleteOrder,
+      {
+        "orderId": id,
+        "roomId": roomId,
+      },
+    );
+  }
+}
+
+void deleteOrderProvider(String id, String roomId) {
+  final controller = instance<OrderController>();
+  controller.deleteOrder(id, roomId);
+}

@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/config/extensions.dart';
-import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
 
@@ -28,9 +27,19 @@ class ProfileOptions extends StatelessWidget {
             title: AppStrings.history.tr(),
           ),
           ProfileOption(
-            icon: Icons.group,
-            onTap: () => context.navigator.pushNamed(Routes.rooms),
-            title: AppStrings.rooms.tr(),
+            icon: Icons.settings,
+            onTap: () => log("Settings"),
+            title: AppStrings.settings.tr(),
+          ),
+          ProfileOption(
+            icon: Icons.help,
+            onTap: () => log("Help"),
+            title: AppStrings.help.tr(),
+          ),
+          ProfileOption(
+            icon: Icons.info,
+            onTap: () => log("About"),
+            title: AppStrings.about.tr(),
           ),
         ],
       ),
@@ -55,8 +64,8 @@ class ProfileOption extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(AppSizes.s10),
       child: ListTile(
-        leading: Icon(icon, size: context.width * 0.1),
-        title: Text(title, style: context.textTheme.bodyLarge),
+        leading: Icon(icon, size: context.width * AppSizes.s01),
+        title: Text(title, style: context.textTheme.titleLarge),
         onTap: onTap,
       ),
     );

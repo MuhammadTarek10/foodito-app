@@ -4,6 +4,7 @@ class Food {
   final double? price;
   final String? restaurant;
   final String? categoryId;
+  final String roomId;
   final String username;
 
   Food({
@@ -12,6 +13,7 @@ class Food {
     this.price,
     this.restaurant,
     this.categoryId,
+    required this.roomId,
     required this.username,
   });
 
@@ -21,6 +23,7 @@ class Food {
         price: double.parse(json["price"]),
         restaurant: json["restaurant"],
         categoryId: json["category_id"].toString(),
+        roomId: json["room_id"].toString(),
         username: json["username"],
       );
 
@@ -30,6 +33,7 @@ class Food {
         "price": price,
         "restaurant": restaurant,
         "categoryId": categoryId,
+        "roomId": roomId,
         "username": username,
       };
 }

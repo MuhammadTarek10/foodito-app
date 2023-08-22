@@ -8,9 +8,9 @@ import 'package:foodito/features/auth/domain/entities/user.dart';
 import 'package:foodito/features/home/online/domain/entities/food.dart';
 import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
-import 'package:foodito/features/home/online/presentation/state/providers/food_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/food_socket_provider.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/members_provider.dart';
-import 'package:foodito/features/home/online/presentation/state/providers/order_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/order_socket_provider.dart';
 import 'package:foodito/features/home/online/presentation/state/providers/user_provider.dart';
 import 'package:foodito/features/home/online/presentation/views/room/widgets/food_dialog.dart';
 import 'package:foodito/features/home/online/presentation/views/room/widgets/food_widget.dart';
@@ -85,20 +85,25 @@ class _RoomViewState extends ConsumerState<RoomView>
   Widget _buildOrders(AsyncValue<List<Order>> ordersStream, String userId) {
     return ordersStream.when(
       data: (data) {
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            final order = data[index];
-            return OrderWidget(
-              index: index,
-              order: order,
-              isAdmin: widget.room.isAdmin || order.userId == userId,
-              onEdit: (order) {},
-              onDelete: (order) {},
-            );
-          },
-        );
+        return data.isEmpty
+            ? Container()
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final order = data[index];
+                  return OrderWidget(
+                    index: index,
+                    order: order,
+                    isAdmin: widget.room.isAdmin || order.userId == userId,
+                    onEdit: (order) {},
+                    onDelete: (order) => deleteOrderProvider(
+                      order.id.toString(),
+                      widget.room.id.toString(),
+                    ),
+                  );
+                },
+              );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => const Text('Error'),

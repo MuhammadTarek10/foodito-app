@@ -5,6 +5,7 @@ import 'package:foodito/features/home/online/data/apis/responses/food_responses.
 abstract class FoodDataSource {
   Future<void> addFood(String roomId, String name, double price);
   Future<GetFoodsResponse> getFoodInRoom(String roomId);
+  Future<void> deleteFood(String id);
 }
 
 class FoodDataSourceImplementer implements FoodDataSource {
@@ -26,5 +27,14 @@ class FoodDataSourceImplementer implements FoodDataSource {
   @override
   Future<GetFoodsResponse> getFoodInRoom(String roomId) async {
     return await client.getFoodInRoom(roomId);
+  }
+
+  @override
+  Future<void> deleteFood(String id) async {
+    return await client.deleteFood(
+      DeleteFoodRequest(
+        id: id,
+      ),
+    );
   }
 }

@@ -45,4 +45,7 @@ abstract class AppServiceClient {
 
   @GET(AppConstants.getRoodByRoom)
   Future<GetFoodsResponse> getFoodInRoom(@Path() String id);
+
+  @DELETE(AppConstants.deleteFood)
+  Future<void> deleteFood(@Body() DeleteFoodRequest request);
 }

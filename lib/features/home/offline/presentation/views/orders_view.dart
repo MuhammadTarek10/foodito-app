@@ -16,14 +16,14 @@ import 'package:foodito/features/home/offline/presentation/state/providers/searc
 import 'package:foodito/features/home/offline/presentation/widgets/order_widget.dart';
 import 'package:uuid/uuid.dart';
 
-class OrderView extends ConsumerStatefulWidget {
-  const OrderView({super.key});
+class OrdersView extends ConsumerStatefulWidget {
+  const OrdersView({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _OrderViewState();
 }
 
-class _OrderViewState extends ConsumerState<OrderView> {
+class _OrderViewState extends ConsumerState<OrdersView> {
   late TextEditingController _searchController;
   List<Order>? filteredOrders;
   late TextEditingController _orderController;
@@ -62,78 +62,79 @@ class _OrderViewState extends ConsumerState<OrderView> {
   Widget build(BuildContext context) {
     final orders = ref.watch(searchProvider(_searchController.text));
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colorScheme.onPrimary,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(AppSizes.s14),
-                  child: Column(
-                    children: [
-                      SearchWidget(searchController: _searchController),
-                      orders == null
-                          ? const Expanded(
-                              child: Center(child: CircularProgressIndicator()))
-                          : orders.isEmpty
-                              ? const EmptyOrders()
-                              : Expanded(
-                                  child: ListView.builder(
-                                    itemCount: orders.length,
-                                    itemBuilder: (context, index) {
-                                      final order = orders[index];
-                                      return OrderWidget(
-                                        order: order,
-                                        onEdit: (order) => _edit(order),
-                                        onDelete: (order) => _delete(order),
-                                      );
-                                    },
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSizes.s10),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(AppSizes.s14),
+                    child: Column(
+                      children: [
+                        SearchWidget(searchController: _searchController),
+                        orders == null
+                            ? const Expanded(
+                                child:
+                                    Center(child: CircularProgressIndicator()))
+                            : orders.isEmpty
+                                ? const EmptyOrders()
+                                : Expanded(
+                                    child: ListView.builder(
+                                      itemCount: orders.length,
+                                      itemBuilder: (context, index) {
+                                        final order = orders[index];
+                                        return OrderWidget(
+                                          order: order,
+                                          onEdit: (order) => _edit(order),
+                                          onDelete: (order) => _delete(order),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: context.height * AppSizes.s01,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.colorScheme.onPrimary,
-                          blurRadius: 10,
-                          offset: const Offset(0, 0),
-                        ),
                       ],
                     ),
-                    child: GestureDetector(
-                      onTap: () => _addOrder(null),
-                      child: SvgPicture.asset(AppAssets.addOrder),
-                    ),
                   ),
-                )
-              ],
-            ),
-          ),
-          SafeArea(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.only(
-                right: AppSizes.s20,
-                left: AppSizes.s20,
+                  Positioned(
+                    bottom: context.height * AppSizes.s01,
+                    right: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.colorScheme.onPrimary,
+                            blurRadius: 10,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      child: GestureDetector(
+                        onTap: () => _addOrder(null),
+                        child: SvgPicture.asset(AppAssets.addOrder),
+                      ),
+                    ),
+                  )
+                ],
               ),
-              child: ElevatedButton(
-                onPressed: () => _check(orders),
-                child: Text(AppStrings.check.tr()),
+            ),
+            SafeArea(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  right: AppSizes.s20,
+                  left: AppSizes.s20,
+                ),
+                child: ElevatedButton(
+                  onPressed: () => _check(orders),
+                  child: Text(AppStrings.check.tr()),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

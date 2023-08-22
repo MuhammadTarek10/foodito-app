@@ -56,7 +56,7 @@ class RouteGenerator {
       case Routes.home:
         return MaterialPageRoute(builder: (context) => const MainView());
       case Routes.order:
-        return MaterialPageRoute(builder: (context) => const OrderView());
+        return MaterialPageRoute(builder: (context) => const OrdersView());
       case Routes.createRoom:
         return MaterialPageRoute(builder: (context) => const CreateRoomView());
       case Routes.rooms:

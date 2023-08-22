@@ -15,6 +15,8 @@ import 'package:foodito/features/home/online/data/datasource/room_datasource.dar
 import 'package:foodito/features/home/online/data/repositories/food_repository_implementer.dart';
 import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
 import 'package:foodito/features/home/online/data/repositories/socket_repository_implementer.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/food_socket_provider.dart';
+import 'package:foodito/features/home/online/presentation/state/providers/order_socket_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -95,7 +97,18 @@ Future<void> initApp() async {
 
   instance.registerFactory<FoodRepositoryImplementer>(
     () => FoodRepositoryImplementer(
-        dataSource: instance<FoodDataSourceImplementer>()),
+      networkInfo: instance<NetworkInfoImp>(),
+      dataSource: instance<FoodDataSourceImplementer>(),
+      prefs: instance<AppPreferences>(),
+    ),
+  );
+
+  instance.registerFactory<FoodController>(
+    () => FoodController(),
+  );
+  
+  instance.registerFactory<OrderController>(
+    () => OrderController(),
   );
 }
 

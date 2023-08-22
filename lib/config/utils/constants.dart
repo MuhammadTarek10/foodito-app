@@ -17,6 +17,7 @@ class AppConstants {
   // * Food
   static const String addFood = "$baseUrl/food/food";
   static const String getRoodByRoom = "$baseUrl/food/food/room/{id}";
+  static const String deleteFood = "$baseUrl/food/food";
 
   // * Headers
   static const String contentType = "Content-Type";
@@ -48,4 +49,5 @@ class AppConstants {
   static const String doneFood = "doneFood";
   static const String getMembers = "getMembers";
   static const String doneMembers = "doneMembers";
+  static const String deleteOrder = "deleteOrder";
 }
