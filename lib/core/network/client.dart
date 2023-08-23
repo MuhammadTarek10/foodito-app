@@ -48,4 +48,7 @@ abstract class AppServiceClient {
 
   @DELETE(AppConstants.deleteFood)
   Future<void> deleteFood(@Body() DeleteFoodRequest request);
+
+  @PUT(AppConstants.joinRoomByCode)
+  Future<RoomResponse> joinRoomByCode(@Body() JoinRoomRequest request);
 }

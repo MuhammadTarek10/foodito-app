@@ -8,6 +8,7 @@ abstract class RoomDatasource {
   Future<EditRoomResponse> editRoom(String id, String name, String code);
   Future<DeleteRoomResponse> deleteRoom(String id);
   Future<EnterRoomResponse> enterRoom(String id);
+  Future<RoomResponse> joinRoom(String code);
 }
 
 class RoomDatasourceImplementer implements RoomDatasource {
@@ -38,5 +39,10 @@ class RoomDatasourceImplementer implements RoomDatasource {
   @override
   Future<EnterRoomResponse> enterRoom(String id) async {
     return await client.enterRoom(id);
+  }
+
+  @override
+  Future<RoomResponse> joinRoom(String code) async {
+    return await client.joinRoomByCode(JoinRoomRequest(code));
   }
 }

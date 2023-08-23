@@ -7,6 +7,7 @@ import 'package:foodito/config/extensions.dart';
 import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
+import 'package:foodito/core/state/providers/loading_provider.dart';
 import 'package:foodito/core/widgets/custom_snackbar.dart';
 import 'package:foodito/features/auth/presentation/state/providers/auth_provider.dart';
 import 'package:foodito/features/auth/presentation/widgets/continue_button.dart';
@@ -185,10 +186,12 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> _login(WidgetRef ref) async {
+    ref.read(loadingProvider.notifier).loading();
     await ref.read(authProvider.notifier).login(
           _emailController.text,
           _passwordController.text,
         );
+    ref.read(loadingProvider.notifier).doneLoading();
     final state = ref.watch(authProvider);
     if (state != null) {
       state.fold(

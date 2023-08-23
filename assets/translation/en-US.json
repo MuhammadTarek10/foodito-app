@@ -62,5 +62,10 @@
   "delete_food_confirmation": "Are you sure you want to delete this food?",
   "settings": "Settings",
   "help": "Help",
-  "about": "About"
+  "about": "About",
+  "loading": "Loading",
+  "try_again": "Try Again",
+  "join_room": "Join Room",
+  "create_room": "Create Room",
+  "enter_room_code": "Enter Room Code"
 }

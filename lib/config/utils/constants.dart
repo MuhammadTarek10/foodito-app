@@ -13,6 +13,7 @@ class AppConstants {
   static const String editRoom = "$baseUrl/room/update";
   static const String deleteRoom = "$baseUrl/rooms";
   static const String getRoomById = "$baseUrl/room/{id}";
+  static const String joinRoomByCode = "$baseUrl/room/join";
 
   // * Food
   static const String addFood = "$baseUrl/food/food";
@@ -50,4 +51,8 @@ class AppConstants {
   static const String getMembers = "getMembers";
   static const String doneMembers = "doneMembers";
   static const String deleteOrder = "deleteOrder";
+
+  // * PopUp Values
+  static const String create = "create";
+  static const String join = "join";
 }

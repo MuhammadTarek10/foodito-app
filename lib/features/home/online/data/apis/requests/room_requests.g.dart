@@ -18,6 +18,16 @@ Map<String, dynamic> _$AddRoomRequestToJson(AddRoomRequest instance) =>
       'code': instance.code,
     };
 
+JoinRoomRequest _$JoinRoomRequestFromJson(Map<String, dynamic> json) =>
+    JoinRoomRequest(
+      json['code'] as String?,
+    );
+
+Map<String, dynamic> _$JoinRoomRequestToJson(JoinRoomRequest instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+    };
+
 EditRoomRequest _$EditRoomRequestFromJson(Map<String, dynamic> json) =>
     EditRoomRequest(
       json['id'] as String?,

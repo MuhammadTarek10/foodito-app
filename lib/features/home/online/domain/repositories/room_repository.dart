@@ -10,4 +10,5 @@ abstract class RoomRepository {
   Future<Either<Failure, List<Room>>> getRooms();
 
   Future<Either<Failure, List<Order>>> enterRoom(String id);
+  Future<Either<Failure, Room>> joinRoom(String code);
 }

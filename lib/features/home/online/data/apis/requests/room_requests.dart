@@ -19,6 +19,19 @@ class AddRoomRequest {
 }
 
 @JsonSerializable()
+class JoinRoomRequest {
+  @JsonKey(name: "code")
+  String? code;
+
+  JoinRoomRequest(this.code);
+
+  factory JoinRoomRequest.fromJson(Map<String, dynamic> json) =>
+      _$JoinRoomRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JoinRoomRequestToJson(this);
+}
+
+@JsonSerializable()
 class EditRoomRequest {
   @JsonKey(name: "id")
   String? id;
@@ -85,4 +98,3 @@ class GetRoomByCodeRequest {
 
   Map<String, dynamic> toJson() => _$GetRoomByCodeRequestToJson(this);
 }
-

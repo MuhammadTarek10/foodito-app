@@ -102,4 +102,19 @@ class RoomRepositoryImplementer implements RoomRepository {
       return Left(Failure(500, AppStrings.noInternet));
     }
   }
+
+  @override
+  Future<Either<Failure, Room>> joinRoom(String code) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final user = prefs.getUser();
+        final response = await datasource.joinRoom(code);
+        return Right(response.toDomain(user!.id!));
+      } catch (e) {
+        return Left(Failure(500, AppStrings.internal));
+      }
+    } else {
+      return Left(Failure(500, AppStrings.noInternet));
+    }
+  }
 }

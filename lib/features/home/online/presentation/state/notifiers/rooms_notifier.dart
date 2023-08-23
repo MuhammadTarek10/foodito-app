@@ -1,43 +1,40 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/core/di.dart';
+import 'package:foodito/core/network/error/failure.dart';
 import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/domain/repositories/room_repository.dart';
 
-class RoomsNotifier extends StateNotifier<List<Room>?> {
+class RoomsNotifier extends StateNotifier<Either<Failure, List<Room>?>> {
   final RoomRepository roomRepository = instance<RoomRepositoryImplementer>();
 
-  RoomsNotifier() : super(null) {
-    getRooms();
-  }
+  RoomsNotifier() : super(const Right(null));
 
-  Future<void> getRooms() async {
-    final result = await roomRepository.getRooms();
-    result.fold(
-      (failure) => state = null,
-      (rooms) => state = rooms,
-    );
+  Future<Either<Failure, List<Room>?>> getRooms() async {
+    state = await roomRepository.getRooms();
+    return state;
   }
 
   Future<bool> addRoom(String name, String code) async {
-    bool result = false;
-    (await roomRepository.addRoom(Room(name: name, code: code))).fold(
-      (l) => result = false,
-      (r) => result = true,
+    final result = await roomRepository
+        .addRoom(Room(name: name, code: code))
+        .then((value) => getRooms());
+    return result.fold((l) => false, (r) => true);
+  }
+
+  Future<void> editRoom(Room room) async {
+    await roomRepository.editRoom(room);
+  }
+
+  Future<Room?> joinRoom(String code) async {
+    return (await roomRepository.joinRoom(code)).fold(
+      (l) => null,
+      (room) => room,
     );
-
-    return result;
   }
 
-  Future<void> editRoom(String id, String name, String code) async {
-    await roomRepository.editRoom(Room(id: id, name: name, code: code)).then(
-          (value) => getRooms(),
-        );
-  }
-
-  Future<void> deleteRoom(String id) async {
-    await roomRepository.deleteRoom(id).then(
-          (value) => getRooms(),
-        );
+  Future<void> deleteRoom(Room room) async {
+    await roomRepository.deleteRoom(room.id.toString());
   }
 }

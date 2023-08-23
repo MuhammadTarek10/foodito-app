@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodito/core/loading_screen.dart';
+import 'package:foodito/core/state/providers/loading_provider.dart';
 import 'package:foodito/features/auth/presentation/views/login_view.dart';
 import 'package:foodito/features/auth/presentation/views/onboarding_view.dart';
 import 'package:foodito/features/auth/presentation/views/register_view.dart';
@@ -38,7 +41,18 @@ class RouteGenerator {
   static Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.initialRoute:
-        return MaterialPageRoute(builder: (context) => const SplashView());
+        return MaterialPageRoute(
+          builder: (context) => Consumer(
+            builder: (context, ref, child) {
+              ref.listen(loadingProvider, (_, isLoading) {
+                isLoading
+                    ? LoadingScreen.instance().show(context: context)
+                    : LoadingScreen.instance().hide();
+              });
+              return const SplashView();
+            },
+          ),
+        );
       case Routes.login:
         return MaterialPageRoute(builder: (context) => const LoginView());
       case Routes.resetPassword:

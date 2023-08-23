@@ -19,5 +19,10 @@ class AppAssets {
   static const String delete = "$iconBase/delete.svg";
   static const String edit = "$iconBase/edit.svg";
   static const String addOrder = "$iconBase/add-order.svg";
+  static const String serverError = "$iconBase/server-error.svg";
   // static const String search = "$iconBase/search.svg";
+
+  // * Lottie
+  static const String lottieBase = "assets/lottie";
+  static const String lottieLoading = "$lottieBase/loading.json";
 }

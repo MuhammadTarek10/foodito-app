@@ -25,6 +25,8 @@ class AppStrings {
   static const String hello = "hello";
   static const String rooms = "rooms";
   static const String delete = "delete";
+  static const String loading = "loading";
+  static const String tryAgain = "try_again";
 
   static const String chooseMethod = "choose_ordering_method";
   static const String search = "search";
@@ -45,6 +47,10 @@ class AppStrings {
   static const String orders = "orders";
   static const String members = "members";
   static const String food = "food";
+
+  // * Room
+  static const String joinRoom = "join_room";
+  static const String enterRoomCode = "enter_room_code";
 
   // * Food
   static const String addFood = "add_food";

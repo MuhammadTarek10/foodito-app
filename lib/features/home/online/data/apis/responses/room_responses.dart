@@ -110,6 +110,25 @@ extension GetRoomExtension on GetRoomResponse {
 }
 
 @JsonSerializable()
+class RoomResponse {
+  @JsonKey(name: "room")
+  GetRoomResponse? room;
+
+  RoomResponse(this.room);
+
+  factory RoomResponse.fromJson(Map<String, dynamic> json) =>
+      _$RoomResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RoomResponseToJson(this);
+}
+
+extension RoomResponseExtension on RoomResponse {
+  Room toDomain(String userId) {
+    return room!.toDomain(userId);
+  }
+}
+
+@JsonSerializable()
 class GetRoomsResponse {
   @JsonKey(name: "rooms")
   List<GetRoomResponse>? rooms;
