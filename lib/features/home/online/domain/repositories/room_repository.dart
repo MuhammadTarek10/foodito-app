@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart' show Either;
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:foodito/core/errors/failure.dart';
 import 'package:foodito/features/home/online/domain/entities/order.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 

@@ -51,6 +51,8 @@ class AppStrings {
   // * Room
   static const String joinRoom = "join_room";
   static const String enterRoomCode = "enter_room_code";
+  static const String member = "member";
+  static const String admin = "admin";
 
   // * Food
   static const String addFood = "add_food";

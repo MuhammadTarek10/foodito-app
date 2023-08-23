@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart' show Either;
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:foodito/core/errors/failure.dart';
 import 'package:foodito/features/home/offline/domain/entities/order.dart';
 
 abstract class ListRepository {

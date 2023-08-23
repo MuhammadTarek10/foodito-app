@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodito/core/di.dart';
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:foodito/core/errors/failure.dart';
 import 'package:foodito/features/home/online/data/repositories/room_repository_implementer.dart';
 import 'package:foodito/features/home/online/domain/entities/room.dart';
 import 'package:foodito/features/home/online/domain/repositories/room_repository.dart';

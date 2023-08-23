@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/core/di.dart';
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:foodito/core/errors/failure.dart';
+import 'package:foodito/core/errors/handler/error_handler.dart';
 import 'package:foodito/core/network/network_info.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/auth/data/apis/responses/login_response.dart';
@@ -54,11 +56,11 @@ class AuthRepositoryImplementer implements AuthRepository {
         prefs.setSeenOnBoarding();
         await setTokenDio();
         return Right(user);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -69,11 +71,11 @@ class AuthRepositoryImplementer implements AuthRepository {
         await remoteDataSource.logout();
         prefs.clear();
         return const Right(true);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 }

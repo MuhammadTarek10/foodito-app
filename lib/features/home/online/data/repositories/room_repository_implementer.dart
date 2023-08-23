@@ -1,8 +1,9 @@
 import 'dart:ffi';
 
 import 'package:dartz/dartz.dart' show Either, Right, Left;
-import 'package:foodito/config/utils/strings.dart';
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:dio/dio.dart';
+import 'package:foodito/core/errors/failure.dart';
+import 'package:foodito/core/errors/handler/error_handler.dart';
 import 'package:foodito/core/network/network_info.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/home/online/data/apis/responses/room_responses.dart';
@@ -29,11 +30,11 @@ class RoomRepositoryImplementer implements RoomRepository {
         await datasource.addRoom(room.name, room.code);
         // ignore: void_checks
         return const Right(Void);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -44,11 +45,11 @@ class RoomRepositoryImplementer implements RoomRepository {
         await datasource.deleteRoom(id);
         // ignore: void_checks
         return const Right(Void);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -59,11 +60,11 @@ class RoomRepositoryImplementer implements RoomRepository {
         final response =
             await datasource.editRoom(room.id!, room.name, room.code);
         return Right(response.toDomain());
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -78,11 +79,11 @@ class RoomRepositoryImplementer implements RoomRepository {
               ? response.rooms!.map((e) => e.toDomain(user!.id!)).toList()
               : [],
         );
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -95,11 +96,11 @@ class RoomRepositoryImplementer implements RoomRepository {
             ? response.orders!.map((e) => e.toDomain()).toList()
             : [];
         return Right(orders as List<Order>);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 
@@ -110,11 +111,11 @@ class RoomRepositoryImplementer implements RoomRepository {
         final user = prefs.getUser();
         final response = await datasource.joinRoom(code);
         return Right(response.toDomain(user!.id!));
-      } catch (e) {
-        return Left(Failure(500, AppStrings.internal));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 }

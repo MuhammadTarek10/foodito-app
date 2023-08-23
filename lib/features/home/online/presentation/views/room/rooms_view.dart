@@ -30,7 +30,7 @@ class _RoomsViewState extends ConsumerState<RoomsView> {
     final rooms = ref.watch(roomsProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rooms'),
+        title: Text(AppStrings.rooms.tr()),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [
@@ -72,7 +72,7 @@ class _RoomsViewState extends ConsumerState<RoomsView> {
         ],
       ),
       body: rooms.fold(
-        (l) => ServerTryAgain(
+        (failure) => ServerTryAgain(
             onPressed: () => ref.read(roomsProvider.notifier).getRooms()),
         (rooms) => rooms == null
             ? const LottieLoading()
@@ -110,7 +110,8 @@ class RoomWidget extends StatelessWidget {
       ),
       title: Text(room.name),
       subtitle: Text(room.code),
-      trailing: Text(room.isAdmin ? 'Admin' : 'Member'),
+      trailing:
+          Text(room.isAdmin ? AppStrings.admin.tr() : AppStrings.member.tr()),
     );
   }
 }

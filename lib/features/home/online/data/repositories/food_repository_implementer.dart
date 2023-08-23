@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:foodito/config/utils/strings.dart';
-import 'package:foodito/core/network/error/failure.dart';
+import 'package:dio/dio.dart';
+import 'package:foodito/core/errors/failure.dart';
+import 'package:foodito/core/errors/handler/error_handler.dart';
 import 'package:foodito/core/network/network_info.dart';
 import 'package:foodito/core/prefs.dart';
 import 'package:foodito/features/home/online/data/datasource/food_datasource.dart';
@@ -36,11 +37,11 @@ class FoodRepositoryImplementer implements FoodRepository {
       try {
         final response = await dataSource.deleteFood(id);
         return Right(response);
-      } catch (e) {
-        return Left(Failure(500, AppStrings.unknownError));
+      } on DioException catch (e) {
+        return Left(ErrorHandler.handle(e));
       }
     } else {
-      return Left(Failure(500, AppStrings.noInternet));
+      return Left(NoInternetFailure());
     }
   }
 }

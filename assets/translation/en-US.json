@@ -67,5 +67,7 @@
   "try_again": "Try Again",
   "join_room": "Join Room",
   "create_room": "Create Room",
-  "enter_room_code": "Enter Room Code"
+  "enter_room_code": "Enter Room Code",
+  "member": "Member",
+  "admin": "Admin"
 }
