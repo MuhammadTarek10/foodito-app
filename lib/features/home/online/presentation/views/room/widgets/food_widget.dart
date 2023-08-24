@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodito/config/extensions.dart';
+import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
 import 'package:foodito/features/home/online/domain/entities/add_order.dart';
@@ -23,7 +25,7 @@ class FoodWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => showDialog(
         context: context,
         builder: (context) => AddOrderDialog(
@@ -35,12 +37,6 @@ class FoodWidget extends StatelessWidget {
             ),
             quantity,
           ),
-        ),
-      ),
-      onLongPress: () => showDialog(
-        context: context,
-        builder: (context) => DeleteConfirmationDialog(
-          onDelete: () => deleteFoodProvider(food),
         ),
       ),
       child: Container(
@@ -56,61 +52,80 @@ class FoodWidget extends StatelessWidget {
                 offset: const Offset(0, AppSizes.s4),
               ),
             ]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSizes.s8),
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "${food.name.split(' ')[0]}: ",
-                      style: context.textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(AppSizes.s8),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "${food.name.split(' ')[0]}: ",
+                            style: context.textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: food.username.split(' ')[0],
+                            style: context.textTheme.titleLarge,
+                          ),
+                        ],
                       ),
                     ),
-                    TextSpan(
-                      text: food.username.split(' ')[0],
-                      style: context.textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(AppSizes.s4),
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: food.price.toString(),
-                      style: context.textTheme.titleLarge,
-                    ),
-                    TextSpan(
-                      text: " EGP",
-                      style: context.textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            food.restaurant != null
-                ? Padding(
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(AppSizes.s4),
                     child: RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: food.restaurant,
-                            style: context.textTheme.displaySmall,
+                            text: food.price.toString(),
+                            style: context.textTheme.titleLarge,
+                          ),
+                          TextSpan(
+                            text: " EGP",
+                            style: context.textTheme.titleLarge,
                           ),
                         ],
                       ),
                     ),
-                  )
-                : Container(),
+                  ),
+                  food.restaurant != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(AppSizes.s4),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: food.restaurant,
+                                  style: context.textTheme.displaySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: InkWell(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => DeleteConfirmationDialog(
+                    onDelete: () => deleteFoodProvider(food),
+                  ),
+                ),
+                child: SvgPicture.asset(AppAssets.delete),
+              ),
+            ),
           ],
         ),
       ),

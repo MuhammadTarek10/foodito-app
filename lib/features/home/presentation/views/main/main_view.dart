@@ -60,9 +60,9 @@ class CustomNavigationBar extends StatelessWidget {
       index: option.index,
       animationCurve: Curves.easeInOut,
       items: const [
-        Icon(Icons.person),
-        Icon(Icons.online_prediction),
-        Icon(Icons.offline_share),
+        Icon(Icons.person_outline),
+        Icon(Icons.room_service),
+        Icon(Icons.list_alt),
       ],
       onTap: (index) => ref
           .read(bottomNavigationProvider.notifier)

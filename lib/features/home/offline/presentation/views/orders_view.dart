@@ -321,11 +321,7 @@ class OrderController {
                     if (nameController.text.isEmpty ||
                         orderController.text.isEmpty ||
                         priceController.text.isEmpty ||
-                        payedController.text.isEmpty ||
-                        priceController.text.runes
-                            .any((element) => element < 48 || element > 57) ||
-                        payedController.text.runes
-                            .any((element) => element < 48 || element > 57)) {
+                        payedController.text.isEmpty) {
                       context.navigator.pop();
                       return context.snackBar(
                         message: AppStrings.invalidInputs.tr(),
