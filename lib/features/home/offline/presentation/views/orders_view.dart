@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodito/config/extensions.dart';
+import 'package:foodito/config/routes.dart';
 import 'package:foodito/config/utils/assets.dart';
 import 'package:foodito/config/utils/strings.dart';
 import 'package:foodito/config/utils/values.dart';
@@ -146,7 +145,10 @@ class _OrderViewState extends ConsumerState<OrdersView> {
   }
 
   void _check(List<Order>? orders) {
-    if (orders != null) log(orders.map((e) => e.toJson()).toString());
+    context.navigator.pushNamed(
+      Routes.check,
+      arguments: orders ?? [],
+    );
   }
 
   Future<void> _addOrder(Order? order) async {
@@ -320,8 +322,7 @@ class OrderController {
                   onPressed: () async {
                     if (nameController.text.isEmpty ||
                         orderController.text.isEmpty ||
-                        priceController.text.isEmpty ||
-                        payedController.text.isEmpty) {
+                        priceController.text.isEmpty) {
                       context.navigator.pop();
                       return context.snackBar(
                         message: AppStrings.invalidInputs.tr(),
@@ -329,6 +330,9 @@ class OrderController {
                       );
                     }
 
+                    payedController.text = payedController.text.isEmpty
+                        ? "0"
+                        : payedController.text;
                     final quantity = int.parse(quantityController.text);
                     for (int i = 0; i < quantity; i++) {
                       final toAdd = Order(

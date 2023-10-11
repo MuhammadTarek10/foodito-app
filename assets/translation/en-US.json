@@ -69,5 +69,6 @@
   "create_room": "Create Room",
   "enter_room_code": "Enter Room Code",
   "member": "Member",
-  "admin": "Admin"
+  "admin": "Admin",
+  "total": "Total"
 }

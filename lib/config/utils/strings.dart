@@ -65,6 +65,7 @@ class AppStrings {
 
   // * Orders
   static const String howManyOrders = "how_many_orders";
+  static const String total = "total";
 
   // * Bottom Navigation Bar
   static const String home = "home";

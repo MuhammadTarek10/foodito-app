@@ -81,7 +81,10 @@ class _CreateRoomViewState extends State<CreateRoomView> {
                             _roomNameController.text, _roomCodeController.text);
                     if (context.mounted) {
                       if (result == true) {
-                        context.navigator.pushReplacementNamed(Routes.rooms);
+                        context.navigator.pushNamedAndRemoveUntil(
+                          Routes.home,
+                          (route) => false, 
+                        );
                       } else {
                         context.snackBar(
                           message: AppStrings.unknownError.tr(),
